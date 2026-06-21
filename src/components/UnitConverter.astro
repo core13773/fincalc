@@ -1,0 +1,88 @@
+---
+import { unitCategories, getCategory, convertUnit, unitName } from '../data/units';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+  category?: string;
+  from?: string;
+  to?: string;
+  amount?: number;
+}
+const { lang, category = 'length', from, to, amount = 1 } = Astro.props;
+const tr = t(lang).unit;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const cat = getCategory(category) ?? unitCategories[0];
+const fromCode = from && cat.units.some((u) => u.code === from) ? from : cat.units[0].code;
+const toCode = to && cat.units.some((u) => u.code === to) ? to : cat.units[1]?.code ?? cat.units[0].code;
+
+const initResult = convertUnit(cat.code, amount, fromCode, toCode);
+const fmt = (val: number, max = 6) =>
+  isFinite(val)
+    ? new Intl.NumberFormat(locale, { maximumFractionDigits: max }).format(val)
+    : '—';
+
+// Embed all categories/units (current locale names) for client-side switching.
+const unitData = {
+  categories: unitCategories.map((c) => ({
+    code: c.code,
+    name: c.name[lang],
+    special: c.special,
+    units: c.units.map((u) => ({ code: u.code, name: u.name[lang], factor: u.factor })),
+  })),
+};
+---
+
+<form id="unit-calc" class="calc" data-locale={locale}>
+  <label class="field">
+    <span class="field__label">{tr.amount}</span>
+    <input type="number" name="amount" inputmode="decimal" step="any" value={amount} data-unit-amount />
+  </label>
+
+  <label class="field">
+    <span class="field__label">{tr.category}</span>
+    <select name="category" data-unit-category>
+      {unitCategories.map((c) => (
+        <option value={c.code} selected={c.code === cat.code}>{c.name[lang]}</option>
+      ))}
+    </select>
+  </label>
+
+  <div class="currency-row">
+    <label class="field field--grow">
+      <span class="field__label">{tr.from}</span>
+      <select name="from" data-unit-from>
+        {cat.units.map((u) => (
+          <option value={u.code} selected={u.code === fromCode}>{u.name[lang]} ({u.code})</option>
+        ))}
+      </select>
+    </label>
+
+    <button type="button" class="btn btn--icon" data-unit-swap aria-label={tr.swap}>{tr.swap}</button>
+
+    <label class="field field--grow">
+      <span class="field__label">{tr.to}</span>
+      <select name="to" data-unit-to>
+        {cat.units.map((u) => (
+          <option value={u.code} selected={u.code === toCode}>{u.name[lang]} ({u.code})</option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.result}</span>
+      <span class="result__value" data-unit-result>{fmt(initResult)}</span>
+    </div>
+    <div class="rate">
+      <span class="rate__label" data-unit-rate-label>1 {fromCode} =</span>
+      <span class="rate__value" data-unit-rate>{fmt(convertUnit(cat.code, 1, fromCode, toCode))} {toCode}</span>
+    </div>
+  </div>
+
+  <script type="application/json" id="unit-data" set:html={JSON.stringify(unitData)} />
+  <script is:inline src="/js/unit.js" defer></script>
+</form>

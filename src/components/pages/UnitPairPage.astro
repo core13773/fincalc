@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import UnitConverter from '../UnitConverter.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import {
+  convertUnit,
+  unitName,
+  categoryName,
+  unitPairs,
+} from '../../data/units';
+
+interface Props {
+  lang: Locale;
+  category: string;
+  from: string;
+  to: string;
+}
+const { lang, category, from, to } = Astro.props;
+const tr = t(lang);
+const u = tr.unit;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const rate = convertUnit(category, 1, from, to);
+const fmtRate = isFinite(rate)
+  ? new Intl.NumberFormat(locale, { maximumFractionDigits: 6 }).format(rate)
+  : '—';
+
+const fromName = unitName(category, from, lang);
+const toName = unitName(category, to, lang);
+const catName = categoryName(category, lang);
+
+const title =
+  lang === 'ko'
+    ? `${fromName}(${from}) → ${toName}(${to}) 변환기 | FinCalc`
+    : `${from} to ${to} Converter | FinCalc`;
+const description =
+  lang === 'ko'
+    ? `1 ${from} = ${fmtRate} ${to}. ${fromName}를 ${toName}로 변환하는 무료 ${catName} 변환기.`
+    : `1 ${from} = ${fmtRate} ${to}. Free ${catName} converter from ${fromName} to ${toName}.`;
+
+const slug = `${from}-to-${to}`;
+const reverseSlug = `${to}-to-${from}`;
+
+const related = unitPairs
+  .filter((p) => p.category === category && !(p.from === from && p.to === to))
+  .slice(0, 8)
+  .map((p) => ({
+    href: localizePath(lang, `/unit/${p.category}/${p.from}-to-${p.to}`),
+    label: `${p.from} → ${p.to}`,
+  }));
+
+const about =
+  lang === 'ko'
+    ? `${fromName}(${from})을(를) ${toName}(${to})로 변환하는 무료 변환기입니다. 기준 환산값은 1 ${from} = ${fmtRate} ${to} 이며, 원하는 숫자를 입력하면 즉시 변환됩니다. 이 계산은 표준 변환 계수를 사용합니다.`
+    : `Free ${catName} converter from ${fromName} (${from}) to ${toName} (${to}). The base rate is 1 ${from} = ${fmtRate} ${to}; enter any number for an instant conversion using standard factors.`;
+---
+
+<BaseLayout lang={lang} path={`/unit/${category}/${slug}`} title={title} description={description}>
+  <section class="page-head container">
+    <h1>{lang === 'ko' ? `${fromName}(${from}) → ${toName}(${to}) 변환` : `${fromName} (${from}) to ${toName} (${to})`}</h1>
+    <p class="page-head__desc">{description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <UnitConverter lang={lang} category={category} from={from} to={to} amount={1} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{lang === 'ko' ? `${catName} 변환 안내` : `About ${catName}`}</h2>
+    <p class="prose">{about}</p>
+    <p class="related">
+      <a href={localizePath(lang, `/unit/${category}/${reverseSlug}`)}>
+        {lang === 'ko' ? `${to} → ${from} 변환 보기` : `View ${to} to ${from}`} ↗
+      </a>
+    </p>
+    <h3 class="subsection__title">{u.popularTitle}</h3>
+    <p class="tag-links">
+      {related.map((r) => <a href={r.href}>{r.label}</a>)}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

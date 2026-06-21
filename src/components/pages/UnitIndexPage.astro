@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import UnitConverter from '../UnitConverter.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import { unitCategories, unitPairs, categoryName } from '../../data/units';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const u = tr.unit;
+
+const popular = unitPairs.slice(0, 18).map((p) => ({
+  href: localizePath(lang, `/unit/${p.category}/${p.from}-to-${p.to}`),
+  label: `${p.from} → ${p.to}`,
+  cat: categoryName(p.category, lang),
+}));
+---
+
+<BaseLayout lang={lang} path="/unit" title={`${u.title} | FinCalc`} description={u.description}>
+  <section class="page-head container">
+    <h1>{u.title}</h1>
+    <p class="page-head__desc">{u.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <UnitConverter lang={lang} category="length" from="km" to="mi" amount={1} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{u.popularTitle}</h2>
+    <div class="unit-popular">
+      {popular.map((row) => (
+        <a class="unit-popular__item" href={row.href}>
+          <span class="unit-popular__conv">{row.label}</span>
+          <span class="unit-popular__cat">{row.cat}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>
+
+<style>
+  .unit-popular {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .unit-popular__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .unit-popular__item:hover { border-color: var(--primary); text-decoration: none; }
+  .unit-popular__conv { font-weight: 700; }
+  .unit-popular__cat { font-size: 0.78rem; color: var(--muted); }
+</style>

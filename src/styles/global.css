@@ -125,7 +125,17 @@ img, svg { max-width: 100%; display: block; }
   color: #fff;
   font-weight: 800;
 }
-.main-nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+.main-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 2px;
+}
+.main-nav::-webkit-scrollbar { display: none; }
 .nav-link {
   padding: 7px 12px;
   border-radius: 999px;

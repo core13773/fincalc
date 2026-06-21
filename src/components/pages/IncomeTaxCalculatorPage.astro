@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import IncomeTaxCalculator from '../IncomeTaxCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import { getTaxTable } from '../../data/tax';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const tax = tr.incomeTax;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const table = getTaxTable(locale);
+const fmtMoney = (v: number) =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: table.currency, maximumFractionDigits: 0 }).format(v);
+
+let prev = 0;
+const bracketRows = table.bands.map((b) => {
+  const row = { from: prev, to: b.up, rate: b.rate };
+  prev = b.up;
+  return row;
+});
+
+const related = [
+  { href: localizePath(lang, '/vat'), label: tr.nav.vat },
+  { href: localizePath(lang, '/percentage'), label: tr.nav.percentage },
+  { href: localizePath(lang, '/compound-interest'), label: tr.nav.compound },
+];
+---
+
+<BaseLayout lang={lang} path="/income-tax" title={`${tax.title} | FinCalc`} description={tax.description}>
+  <section class="page-head container">
+    <h1>{tax.title}</h1>
+    <p class="page-head__desc">{tax.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <IncomeTaxCalculator lang={lang} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{tax.bracketTitle}</h2>
+    <div class="table-wrap">
+      <table class="rate-table">
+        <thead>
+          <tr><th>{tax.range}</th><th>{tax.rate}</th></tr>
+        </thead>
+        <tbody>
+          {bracketRows.map((row) => (
+            <tr>
+              <td>
+                {fmtMoney(row.from)} ~ {row.to >= 1e14 ? (lang === 'ko' ? '초과' : '+') : fmtMoney(row.to)}
+              </td>
+              <td class="rate-table__num">{(row.rate * 100).toFixed(0)}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="related">
+      {related.map((r, i) => (<>
+        {i > 0 && ' · '}
+        <a href={r.href}>{r.label}</a>
+      </>))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

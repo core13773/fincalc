@@ -5,9 +5,9 @@ export const ui = {
     site: {
       name: 'FinCalc',
       tagline: '무료 금융 계산기',
-      title: 'FinCalc — 대출·복리·환율·퍼센트 계산기',
+      title: 'FinCalc — 대출·복리·환율·단위·소득세 계산기',
       description:
-        '대출 이자, 복리 수익, 환율, 퍼센트, 부가세를 정확하고 빠르게 계산하는 무료 금융 계산기. 로그인 없이 바로 사용하세요.',
+        '대출 이자, 복리, 환율, 단위 변환, 퍼센트, 부가세, 소득세까지. 정확하고 빠른 무료 금융·생활 계산기 모음. 로그인 없이 바로 사용하세요.',
     },
     nav: {
       home: '홈',
@@ -16,23 +16,25 @@ export const ui = {
       currency: '환율',
       percentage: '퍼센트',
       vat: '부가세',
+      unit: '단위',
+      incomeTax: '소득세',
       switchLabel: 'EN',
       switchTo: 'English',
     },
     home: {
       heroBadge: '100% 무료 · 로그인 불필요',
-      heroTitle: '돈을 계산하는 가장 빠른 방법',
+      heroTitle: '돈과 단위를 계산하는 가장 빠른 방법',
       heroSub:
-        '대출 상환액, 복리 투자 결과, 실시간 환율, 퍼센트, 부가세까지. 브라우저에서 즉시 계산하고 결과를 확인하세요.',
+        '대출 상환액, 복리, 실시간 환율, 단위 변환, 퍼센트, 부가세, 소득세까지. 브라우저에서 즉시 계산하고 결과를 확인하세요.',
       ctaLoan: '대출 이자 계산',
       ctaCompound: '복리 계산',
       ctaCurrency: '환율 변환',
-      toolsTitle: '금융 계산 도구',
+      toolsTitle: '계산 도구',
       featuresTitle: '왜 FinCalc인가요?',
       features: [
         {
           title: '정확한 계산',
-          desc: '표준 금융 수식(원리금균등상환, 복리 이자)을 사용해 신뢰할 수 있는 결과를 제공합니다.',
+          desc: '표준 금융 수식과 변환 계수를 사용해 신뢰할 수 있는 결과를 제공합니다.',
         },
         {
           title: '빠르고 가벼움',
@@ -124,6 +126,35 @@ export const ui = {
       total: '합계',
       note: '* 부가세율은 직접 수정 가능합니다 (한국 기본 10%).',
     },
+    unit: {
+      title: '단위 변환기',
+      description:
+        '길이, 무게, 온도, 넓이, 부피, 속도, 데이터, 시간 — 주요 단위를 정확하게 변환하는 무료 단위 변환기.',
+      amount: '값',
+      category: '종류',
+      from: '변환 전',
+      to: '변환 후',
+      swap: '↔ 교환',
+      result: '변환 결과',
+      rate: '환산 (1)',
+      popularTitle: '인기 변환',
+      note: '* 표준 변환 계수를 사용합니다.',
+    },
+    incomeTax: {
+      title: '소득세 계산기',
+      description:
+        '과세표준 금액을 입력하면 누진세율로 소득세·지방소득세·실효세율·세후 금액을 계산합니다. 한국 종합소득세 누진구간 기준.',
+      taxableAmount: '과세표준 금액',
+      incomeTax: '소득세',
+      localTax: '지방소득세',
+      totalTax: '총 세금',
+      effectiveRate: '실효세율',
+      afterTax: '세후 금액',
+      bracketTitle: '누진세율 구간',
+      range: '과세표준 구간',
+      rate: '세율',
+      note: '* 과세표준(각종 공제 적용 후 금액) 기준의 간편 추정치이며, 세액공제·기타 세금은 미포함입니다.',
+    },
     common: {
       result: '결과',
       currency: '통화',
@@ -132,7 +163,7 @@ export const ui = {
     },
     footer: {
       rights: '모든 권리 보유.',
-      about: 'FinCalc는 대출, 복리, 환율, 퍼센트 계산을 위한 무료 웹 도구입니다.',
+      about: 'FinCalc는 대출·복리·환율·단위·소득세 계산을 위한 무료 웹 도구입니다.',
       legal: {
         privacy: '개인정보처리방침',
         about: '소개',
@@ -145,9 +176,9 @@ export const ui = {
     site: {
       name: 'FinCalc',
       tagline: 'Free Finance Calculators',
-      title: 'FinCalc — Loan, Compound, Currency & Percentage Calculators',
+      title: 'FinCalc — Loan, Compound, Currency, Unit & Tax Calculators',
       description:
-        'Free finance calculators for loan payments, compound interest, currency, percentages, and VAT. No sign-up, works instantly in your browser.',
+        'Free calculators for loans, compound interest, currency, unit conversion, percentages, VAT, and income tax. No sign-up, works instantly in your browser.',
     },
     nav: {
       home: 'Home',
@@ -156,23 +187,25 @@ export const ui = {
       currency: 'Currency',
       percentage: 'Percent',
       vat: 'VAT',
+      unit: 'Units',
+      incomeTax: 'Tax',
       switchLabel: 'KO',
       switchTo: '한국어',
     },
     home: {
       heroBadge: '100% Free · No sign-up',
-      heroTitle: 'The fastest way to calculate money',
+      heroTitle: 'The fastest way to calculate money & units',
       heroSub:
-        'Loan payments, compound growth, live exchange rates, percentages, and VAT — calculated instantly in your browser.',
+        'Loan payments, compound growth, live exchange rates, unit conversion, percentages, VAT, and income tax — calculated instantly in your browser.',
       ctaLoan: 'Calculate loan interest',
       ctaCompound: 'Compound interest',
       ctaCurrency: 'Convert currency',
-      toolsTitle: 'Finance calculation tools',
+      toolsTitle: 'Calculation tools',
       featuresTitle: 'Why FinCalc?',
       features: [
         {
           title: 'Accurate math',
-          desc: 'Uses standard financial formulas (amortization, compound interest) you can trust.',
+          desc: 'Uses standard financial formulas and conversion factors you can trust.',
         },
         {
           title: 'Fast & lightweight',
@@ -264,6 +297,35 @@ export const ui = {
       total: 'Total',
       note: '* Edit the rate for your region (Korea default 10%).',
     },
+    unit: {
+      title: 'Unit Converter',
+      description:
+        'Convert length, weight, temperature, area, volume, speed, data, and time accurately and for free.',
+      amount: 'Value',
+      category: 'Category',
+      from: 'From',
+      to: 'To',
+      swap: '↔ Swap',
+      result: 'Result',
+      rate: 'Rate (1)',
+      popularTitle: 'Popular conversions',
+      note: '* Uses standard conversion factors.',
+    },
+    incomeTax: {
+      title: 'Income Tax Calculator',
+      description:
+        'Enter taxable income to compute income tax, effective rate, and after-tax amount using progressive brackets. US federal (single, 2024).',
+      taxableAmount: 'Taxable income',
+      incomeTax: 'Income tax',
+      localTax: 'Local tax',
+      totalTax: 'Total tax',
+      effectiveRate: 'Effective rate',
+      afterTax: 'After-tax amount',
+      bracketTitle: 'Tax brackets',
+      range: 'Taxable income',
+      rate: 'Rate',
+      note: '* Simplified estimate on the taxable base (after deductions); excludes credits and other taxes.',
+    },
     common: {
       result: 'Result',
       currency: 'Currency',
@@ -272,7 +334,7 @@ export const ui = {
     },
     footer: {
       rights: 'All rights reserved.',
-      about: 'FinCalc is a free web tool for loan, compound interest, currency, and percentage calculations.',
+      about: 'FinCalc is a free web tool for loan, compound, currency, unit, and tax calculations.',
       legal: {
         privacy: 'Privacy Policy',
         about: 'About',

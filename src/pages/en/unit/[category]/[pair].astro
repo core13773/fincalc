@@ -1,0 +1,7 @@
+---
+import UnitPairPage from '../../../../components/pages/UnitPairPage.astro';
+import { unitPairPaths } from '../../../../data/units';
+
+export const getStaticPaths = () => unitPairPaths();
+---
+<UnitPairPage lang="en" category={Astro.props.category} from={Astro.props.from} to={Astro.props.to} />
