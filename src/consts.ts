@@ -3,7 +3,7 @@ export const SITE_NAME = 'FinCalc';
 export const DEFAULT_SITE_ORIGIN = 'https://fincalc.monster';
 
 /** Contact email shown on the Contact page. Update to your real address. */
-export const CONTACT_EMAIL = 'contact@fincalc.monster';
+export const CONTACT_EMAIL = 'core13773@gmail.com';
 
 /**
  * Google AdSense publisher client id, e.g. 'ca-pub-1234567890123456'.
