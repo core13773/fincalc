@@ -19,5 +19,8 @@ export const ADSENSE_CLIENT: string = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '
  */
 export const GSC_VERIFICATION: string = import.meta.env.PUBLIC_GSC_VERIFICATION ?? '';
 
+/** Naver Search Advisor verification token (네이버 서치어드바이저 메타태그). */
+export const NAVER_VERIFICATION: string = import.meta.env.PUBLIC_NAVER_VERIFICATION ?? '';
+
 /** True when a real AdSense client id is configured. */
 export const ADS_ENABLED = ADSENSE_CLIENT !== '';
