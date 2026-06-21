@@ -24,8 +24,24 @@
   --header-h: 60px;
 }
 
+:root[data-theme="dark"] {
+  --bg: #0b1120;
+  --surface: #131c2e;
+  --surface-2: #1c2740;
+  --text: #e8edf6;
+  --muted: #94a3b8;
+  --border: #243049;
+  --primary: #3b82f6;
+  --primary-600: #60a5fa;
+  --primary-050: #16233f;
+  --accent: #22c55e;
+  --accent-050: #0f2a1c;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0b1120;
     --surface: #131c2e;
     --surface-2: #1c2740;
@@ -156,6 +172,34 @@ img, svg { max-width: 100%; display: block; }
   background: var(--surface);
 }
 .lang-switch:hover { border-color: var(--primary); color: var(--primary); text-decoration: none; }
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+.theme-toggle:hover { border-color: var(--primary); }
+.share-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.share-btn:hover { border-color: var(--primary); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -380,6 +424,29 @@ input[type='number']:focus, select:focus {
 .dot--interest { background: var(--accent); }
 
 .calc__note { margin: 14px 0 0; font-size: 0.8rem; color: var(--muted); }
+
+.breakdown { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.bd-row { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; color: var(--muted); }
+.bd-row span:last-child { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+
+.faq { max-width: 760px; }
+.faq__item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  margin-bottom: 8px;
+  padding: 0 16px;
+}
+.faq__item summary {
+  cursor: pointer;
+  padding: 14px 0;
+  font-weight: 600;
+  list-style: none;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::before { content: '+ '; color: var(--primary); margin-right: 4px; }
+.faq__item[open] summary::before { content: '− '; }
+.faq__item p { margin: 0 0 14px; color: var(--muted); }
 
 .calc__subtitle { font-size: 1rem; margin: 6px 0 0; color: var(--text); }
 .calc-row { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }

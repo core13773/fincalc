@@ -18,6 +18,7 @@ const tools = [
   { href: '/vat', label: tr.nav.vat },
   { href: '/income-tax', label: tr.nav.incomeTax },
   { href: '/age', label: tr.nav.age },
+  ...(lang === 'ko' ? [{ href: '/salary', label: tr.salary.title }] : []),
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 
 const legal = [

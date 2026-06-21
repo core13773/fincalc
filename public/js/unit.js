@@ -97,5 +97,15 @@
     compute();
   });
 
+  // Remember last-used category (localStorage)
+  try {
+    var savedCat = localStorage.getItem('fincalc:unitcat');
+    if (savedCat && Array.from(categoryEl.options).some(function (o) { return o.value === savedCat; }) && categoryEl.value !== savedCat) {
+      categoryEl.value = savedCat;
+      categoryEl.dispatchEvent(new Event('change'));
+    }
+  } catch (e) {}
+  categoryEl.addEventListener('change', function () { try { localStorage.setItem('fincalc:unitcat', categoryEl.value); } catch (e2) {} });
+
   compute();
 })();

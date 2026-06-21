@@ -48,6 +48,8 @@ const switchHref = localizePath(otherLocale(lang), path);
       ))}
     </nav>
 
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="theme"></button>
+    <button class="share-btn" type="button" data-share-btn aria-label="share">🔗</button>
     <a
       class="lang-switch"
       href={switchHref}
@@ -58,3 +60,7 @@ const switchHref = localizePath(otherLocale(lang), path);
     </a>
   </div>
 </header>
+
+<script is:inline set:html={`(function(){var btn=document.querySelector('[data-theme-toggle]');if(!btn)return;function eff(){var dt=document.documentElement.getAttribute('data-theme');if(dt==='dark'||dt==='light')return dt;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}function paint(){var d=eff()==='dark';btn.textContent=d?'☀️':'🌙';btn.setAttribute('aria-label',d?'light':'dark');}btn.addEventListener('click',function(){var next=eff()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('theme',next);}catch(e){}paint();});paint();})();`} />
+
+<script is:inline set:html={`(function(){var btn=document.querySelector('[data-share-btn]');if(!btn)return;function done(){var o=btn.textContent;btn.textContent='✓';setTimeout(function(){btn.textContent=o;},1400);}btn.addEventListener('click',function(){var data={title:document.title,url:location.href};if(navigator.share){navigator.share(data).then(done).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(done).catch(function(){});}else{done();}});})();`} />

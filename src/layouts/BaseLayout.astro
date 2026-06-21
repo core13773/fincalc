@@ -9,6 +9,7 @@ import {
 } from '../i18n/config';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FaqSection from '../components/FaqSection.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -38,6 +39,7 @@ const ogLocale = hreflangCode(lang).replace('-', '_');
 <html lang={lang === 'ko' ? 'ko' : 'en'}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline set:html={`(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -90,6 +92,7 @@ const ogLocale = hreflangCode(lang).replace('-', '_');
     <main id="main">
       <slot />
     </main>
+    <FaqSection lang={lang} />
     <Footer lang={lang} />
   </body>
 </html>

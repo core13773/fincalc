@@ -1,0 +1,71 @@
+---
+import { computeNetSalary, SALARY_CONST } from '../data/salary';
+import { getTaxTable } from '../data/tax';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).salary;
+const locale = 'ko-KR';
+const init = computeNetSalary(50_000_000, 0, 1);
+const table = getTaxTable(locale);
+const fmt = (v: number) =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: 'KRW', maximumFractionDigits: 0 }).format(v);
+---
+
+<form id="salary-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.annualGross}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" name="gross" inputmode="decimal" min="0" step="any" value="50000000" data-sal-gross />
+      </span>
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.nonTaxable}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" name="nontax" inputmode="decimal" min="0" step="any" value="0" data-sal-nontax />
+      </span>
+    </label>
+    <label class="field field--narrow">
+      <span class="field__label">{tr.dependents}</span>
+      <input type="number" name="dep" inputmode="numeric" min="1" step="1" value="1" data-sal-dep />
+    </label>
+  </div>
+
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.netAnnual}</span>
+      <span class="result__value" data-sal-net>{fmt(init.netAnnual)}</span>
+    </div>
+    <div class="result-grid">
+      <div class="result">
+        <span class="result__label">{tr.netMonthly}</span>
+        <span class="result__value" data-sal-monthly>{fmt(init.netMonthly)}</span>
+      </div>
+      <div class="result result--accent">
+        <span class="result__label">{tr.totalDeduction}</span>
+        <span class="result__value" data-sal-ded>{fmt(init.totalDeduction)}</span>
+      </div>
+    </div>
+
+    <div class="breakdown">
+      <div class="bd-row"><span>{tr.incomeTax}</span><span data-sal-income>{fmt(init.incomeTax)}</span></div>
+      <div class="bd-row"><span>{tr.localTax}</span><span data-sal-local>{fmt(init.localTax)}</span></div>
+      <div class="bd-row"><span>{tr.npension}</span><span data-sal-npension>{fmt(init.npension)}</span></div>
+      <div class="bd-row"><span>{tr.health}</span><span data-sal-health>{fmt(init.health)}</span></div>
+      <div class="bd-row"><span>{tr.longterm}</span><span data-sal-longterm>{fmt(init.longterm)}</span></div>
+      <div class="bd-row"><span>{tr.employment}</span><span data-sal-emp>{fmt(init.employment)}</span></div>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+
+  <script type="application/json" id="salary-data" set:html={JSON.stringify({ const: SALARY_CONST, bands: table.bands })} />
+  <script is:inline src="/js/salary.js" defer></script>
+</form>

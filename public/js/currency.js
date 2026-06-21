@@ -123,6 +123,16 @@
     render(currentRates);
   });
 
+  // Remember last-used currencies (localStorage)
+  try {
+    var saved = JSON.parse(localStorage.getItem('fincalc:cc') || '{}');
+    if (saved.from && Array.from(fromEl.options).some(function (o) { return o.value === saved.from; })) fromEl.value = saved.from;
+    if (saved.to && Array.from(toEl.options).some(function (o) { return o.value === saved.to; })) toEl.value = saved.to;
+  } catch (e) {}
+  function saveCc() { try { localStorage.setItem('fincalc:cc', JSON.stringify({ from: fromEl.value, to: toEl.value })); } catch (e2) {} }
+  fromEl.addEventListener('change', saveCc);
+  toEl.addEventListener('change', saveCc);
+
   // Initial render (reference rates) + first live fetch
   render(fallback);
   loadLive();
