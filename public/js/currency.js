@@ -1,5 +1,7 @@
 // Currency converter — runs on pages that render #currency-calc.
-// Live rates from open.er-api.com with bundled fallback for SSR/offline.
+// Live rates from open.er-api.com (no key). Auto-refreshes every 60s while the
+// tab is visible, shows the source's last-update time, and keeps the last good
+// rate on a temporary fetch error. Bundled reference rates are the SSR/fallback.
 (function () {
   var root = document.getElementById('currency-calc');
   if (!root) return;
@@ -41,7 +43,26 @@
     }).format(val);
   }
 
+  var timeFmt;
+  try {
+    timeFmt = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' });
+  } catch (e) {
+    timeFmt = new Intl.DateTimeFormat(locale);
+  }
+  function fmtTime(s) {
+    if (!s) return '';
+    var d = new Date(s);
+    if (isNaN(d.getTime())) return '';
+    return timeFmt.format(d);
+  }
+
+  function setStatus(text, live) {
+    statusEl.textContent = text;
+    statusEl.setAttribute('data-live', live ? '1' : '0');
+  }
+
   var currentRates = fallback;
+  var liveOk = false; // have we ever received live rates?
 
   function render(rates) {
     var from = fromEl.value;
@@ -59,6 +80,40 @@
     inverseEl.textContent = '1 ' + to + ' = ' + fmtCur(inverse, from, 4);
   }
 
+  function loadLive() {
+    // Only show a "refreshing" state before the very first successful load
+    // (avoids flicker on silent background refreshes).
+    if (!liveOk && labels.loading) setStatus(labels.loading, false);
+
+    return fetch('https://open.er-api.com/v6/latest/USD', { cache: 'no-store' })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.rates) {
+          currentRates = data.rates;
+          liveOk = true;
+          render(currentRates);
+          var t = fmtTime(data.time_last_update_utc);
+          setStatus((labels.livePrefix || '') + (t || '') + (labels.liveSuffix || ''), true);
+        } else {
+          onLiveFail();
+        }
+      })
+      .catch(onLiveFail);
+  }
+
+  function onLiveFail() {
+    if (liveOk) {
+      // Keep showing the last good live rate; flag a temporary issue.
+      render(currentRates);
+      setStatus(labels.stale || '', true);
+    } else {
+      // Never received live rates — show bundled reference rates.
+      render(fallback);
+      setStatus(labels.fallback || '', false);
+    }
+  }
+
+  // Input handlers
   root.addEventListener('input', function () { render(currentRates); });
   var swapBtn = q('[data-swap]');
   if (swapBtn) swapBtn.addEventListener('click', function () {
@@ -68,26 +123,23 @@
     render(currentRates);
   });
 
-  function loadLive() {
-    fetch('https://open.er-api.com/v6/latest/USD')
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (data && data.rates) {
-          currentRates = data.rates;
-          render(currentRates);
-          statusEl.textContent = labels.live || '';
-          statusEl.setAttribute('data-live', '1');
-        } else {
-          statusEl.textContent = labels.fallback || '';
-          statusEl.setAttribute('data-live', '0');
-        }
-      })
-      .catch(function () {
-        statusEl.textContent = labels.fallback || '';
-        statusEl.setAttribute('data-live', '0');
-      });
-  }
-
+  // Initial render (reference rates) + first live fetch
   render(fallback);
   loadLive();
+
+  // Auto-refresh every 60s, paused while the tab is hidden.
+  var REFRESH_MS = 60000;
+  var timer = null;
+  function startTimer() { stopTimer(); timer = setInterval(loadLive, REFRESH_MS); }
+  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      stopTimer();
+    } else {
+      loadLive();
+      startTimer();
+    }
+  });
+  startTimer();
 })();

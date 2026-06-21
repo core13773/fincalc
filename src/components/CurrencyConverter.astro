@@ -86,13 +86,20 @@ const fmtResult = curFmt(to, to === 'JPY' ? 0 : 2);
         </span>
       </div>
     </div>
-    <p class="rate-status" data-status>{tr.liveUpdated}</p>
+    <p class="rate-status" data-status>{tr.loading}</p>
   </div>
 
   <script type="application/json" id="cc-data" set:html={JSON.stringify({
     fallback: referenceRatesUSD,
     locale,
-    labels: { live: tr.liveUpdated, fallback: tr.fallbackNote },
+    labels: {
+      loading: tr.loading,
+      livePrefix: tr.livePrefix,
+      liveSuffix: tr.liveSuffix,
+      refreshing: tr.refreshing,
+      stale: tr.stale,
+      fallback: tr.fallbackNote,
+    },
   })} />
 
   <script is:inline src="/js/currency.js" defer></script>
