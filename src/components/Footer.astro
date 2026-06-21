@@ -21,10 +21,14 @@ const tools = [
   { href: '/date', label: tr.nav.date },
   { href: '/stock', label: tr.stock.title },
   { href: '/savings', label: tr.savings.title },
+  { href: '/dividend', label: tr.dividend.title },
+  { href: '/loan-compare', label: tr.loancompare.title },
   ...(lang === 'ko' ? [
     { href: '/salary', label: tr.salary.title },
     { href: '/severance', label: tr.severance.title },
     { href: '/dsr', label: tr.dsr.title },
+    { href: '/year-tax', label: tr.yeartax.title },
+    { href: '/early-repay', label: tr.earlyrepay.title },
   ] : []),
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 

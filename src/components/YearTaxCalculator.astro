@@ -1,0 +1,55 @@
+---
+import { getTaxTable } from '../data/tax';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).yeartax;
+const table = getTaxTable('ko-KR');
+---
+
+<form id="yeartax-calc" class="calc" data-locale="ko-KR">
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.gross}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" min="0" step="any" data-yt-gross value="50000000" />
+      </span>
+    </label>
+    <label class="field field--narrow">
+      <span class="field__label">{tr.dependents}</span>
+      <input type="number" min="1" data-yt-dep value="1" />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.pension}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" min="0" step="any" data-yt-pension value="4000000" />
+      </span>
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.paidTax}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" min="0" step="any" data-yt-paid value="3500000" />
+      </span>
+    </label>
+  </div>
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.refund}</span>
+      <span class="result__value" data-yt-refund>—</span>
+    </div>
+    <div class="rate">
+      <span class="rate__label">{tr.taxDue}</span>
+      <span class="rate__value" data-yt-due>—</span>
+    </div>
+  </div>
+  <p class="calc__note">{tr.note}</p>
+  <script type="application/json" id="yt-data" set:html={JSON.stringify({ bands: table.bands })} />
+  <script is:inline src="/js/yeartax.js" defer></script>
+</form>

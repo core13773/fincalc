@@ -23,10 +23,14 @@ const tools = [
   { href: '/date', icon: '📅', title: tr.date.title, desc: tr.date.description },
   { href: '/stock', icon: '📊', title: tr.stock.title, desc: tr.stock.description },
   { href: '/savings', icon: '🐷', title: tr.savings.title, desc: tr.savings.description },
+  { href: '/dividend', icon: '💵', title: tr.dividend.title, desc: tr.dividend.description },
+  { href: '/loan-compare', icon: '⚖️', title: tr.loancompare.title, desc: tr.loancompare.description },
   ...(lang === 'ko' ? [
     { href: '/salary', icon: '💰', title: tr.salary.title, desc: tr.salary.description },
     { href: '/severance', icon: '🧾', title: tr.severance.title, desc: tr.severance.description },
     { href: '/dsr', icon: '🏠', title: tr.dsr.title, desc: tr.dsr.description },
+    { href: '/year-tax', icon: '🗓️', title: tr.yeartax.title, desc: tr.yeartax.description },
+    { href: '/early-repay', icon: '⏳', title: tr.earlyrepay.title, desc: tr.earlyrepay.description },
   ] : []),
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 

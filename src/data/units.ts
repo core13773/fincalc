@@ -116,6 +116,29 @@ export const unitCategories: UnitCategory[] = [
       { code: 'year', name: { ko: '년', en: 'Year' }, factor: 31557600 },
     ],
   },
+  {
+    code: 'angle',
+    name: { ko: '각도', en: 'Angle' },
+    units: [
+      { code: 'deg', name: { ko: '도', en: 'Degree' }, factor: 1 },
+      { code: 'rad', name: { ko: '라디안', en: 'Radian' }, factor: 0.017453292519943295 },
+      { code: 'grad', name: { ko: '그레이드', en: 'Gradian' }, factor: 0.9 },
+      { code: 'arcmin', name: { ko: '분', en: 'Arcminute' }, factor: 0.016666666666666666 },
+      { code: 'arcsec', name: { ko: '초', en: 'Arcsecond' }, factor: 0.0002777777777777778 },
+    ],
+  },
+  {
+    code: 'pressure',
+    name: { ko: '압력', en: 'Pressure' },
+    units: [
+      { code: 'pa', name: { ko: '파스칼', en: 'Pascal' }, factor: 1 },
+      { code: 'kpa', name: { ko: '킬로파스칼', en: 'Kilopascal' }, factor: 1000 },
+      { code: 'bar', name: { ko: '바', en: 'Bar' }, factor: 100000 },
+      { code: 'atm', name: { ko: '기압', en: 'Atmosphere' }, factor: 101325 },
+      { code: 'psi', name: { ko: 'PSI', en: 'PSI' }, factor: 6894.757293168 },
+      { code: 'mmHg', name: { ko: 'mmHg', en: 'mmHg' }, factor: 133.322368421 },
+    ],
+  },
 ];
 
 export function getCategory(code: string): UnitCategory | undefined {
@@ -171,6 +194,8 @@ const PRIORITY_UNITS: Record<string, string[]> = {
   speed: ['kmh', 'mph', 'mps', 'knot'],
   data: ['KB', 'MB', 'GB', 'TB'],
   time: ['min', 'h', 's', 'day', 'year'],
+  angle: ['deg', 'rad', 'grad'],
+  pressure: ['pa', 'bar', 'psi', 'atm', 'mmHg'],
 };
 
 /** Generated, high-search unit conversions for programmatic SEO pages. */

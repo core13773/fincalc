@@ -1,0 +1,63 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).loancompare;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+---
+
+<form id="loancompare-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.amount}</span>
+      <input type="number" min="0" step="any" data-lc-amount value={lang === 'ko' ? 100000000 : 200000} />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.rate}</span>
+      <input type="number" min="0" step="0.01" data-lc-rate value="4.5" />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.years}</span>
+      <input type="number" min="0" data-lc-years value="30" />
+    </label>
+  </div>
+
+  <div class="table-wrap">
+    <table class="rate-table">
+      <thead>
+        <tr>
+          <th>{tr.method}</th>
+          <th>{tr.monthly}</th>
+          <th>{tr.totalInterest}</th>
+          <th>{tr.totalPayment}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{tr.eqi}</td>
+          <td class="rate-table__num" data-lc-eqi-m>—</td>
+          <td class="rate-table__num" data-lc-eqi-i>—</td>
+          <td class="rate-table__num" data-lc-eqi-t>—</td>
+        </tr>
+        <tr>
+          <td>{tr.eqp}</td>
+          <td class="rate-table__num" data-lc-eqp-m>—</td>
+          <td class="rate-table__num" data-lc-eqp-i>—</td>
+          <td class="rate-table__num" data-lc-eqp-t>—</td>
+        </tr>
+        <tr>
+          <td>{tr.bullet}</td>
+          <td class="rate-table__num" data-lc-bullet-m>—</td>
+          <td class="rate-table__num" data-lc-bullet-i>—</td>
+          <td class="rate-table__num" data-lc-bullet-t>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="calc__note">{tr.note}{lang === 'ko' ? ' (원금균등의 월 상환액은 첫 달 기준, 매월 감소.)' : ' (Equal-principal monthly is the first month; it decreases monthly.)'}</p>
+  <script is:inline src="/js/loancompare.js" defer></script>
+</form>

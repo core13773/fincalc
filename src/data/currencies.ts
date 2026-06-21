@@ -83,6 +83,10 @@ export const currencyPairs: Array<[string, string]> = [
   ['USD', 'THB'], ['THB', 'USD'],
   ['USD', 'TWD'], ['TWD', 'USD'],
   ['USD', 'VND'], ['VND', 'USD'],
+  ['EUR', 'GBP'], ['GBP', 'EUR'],
+  ['EUR', 'CNY'], ['CNY', 'EUR'],
+  ['EUR', 'AUD'], ['AUD', 'EUR'],
+  ['JPY', 'CNY'], ['CNY', 'JPY'],
   ['EUR', 'JPY'], ['GBP', 'JPY'],
 ];
 
