@@ -40,6 +40,7 @@ jobs:
           PUBLIC_ADSENSE_CLIENT: ${{ secrets.PUBLIC_ADSENSE_CLIENT }}
           PUBLIC_GSC_VERIFICATION: ${{ secrets.PUBLIC_GSC_VERIFICATION }}
           PUBLIC_NAVER_VERIFICATION: ${{ secrets.PUBLIC_NAVER_VERIFICATION }}
+          PUBLIC_GA4_ID: ${{ secrets.PUBLIC_GA4_ID }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -1,5 +1,5 @@
 ---
-import { DEFAULT_SITE_ORIGIN, ADSENSE_CLIENT, GSC_VERIFICATION, NAVER_VERIFICATION } from '../consts';
+import { DEFAULT_SITE_ORIGIN, ADSENSE_CLIENT, GSC_VERIFICATION, NAVER_VERIFICATION, GA4_ID } from '../consts';
 import {
   hreflangCode,
   localizePath,
@@ -84,6 +84,14 @@ const ogLocale = hreflangCode(lang).replace('-', '_');
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
         crossorigin="anonymous"
       ></script>
+    )}
+
+    {/* Google Analytics 4 — active only when PUBLIC_GA4_ID is set */}
+    {GA4_ID && (
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+    )}
+    {GA4_ID && (
+      <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}');`} />
     )}
   </head>
   <body>
