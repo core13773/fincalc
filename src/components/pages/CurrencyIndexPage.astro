@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import CurrencyConverter from '../CurrencyConverter.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import {
+  currencies,
+  currencyName,
+  currencyPairs,
+  referenceRatesUSD,
+  rateBetween,
+} from '../../data/currencies';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const cur = tr.currency;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const defaultFrom = 'USD';
+const defaultTo = lang === 'ko' ? 'KRW' : 'EUR';
+
+const popular = currencyPairs.slice(0, 10).map(([from, to]) => ({
+  from,
+  to,
+  rate: rateBetween(referenceRatesUSD, from, to),
+  href: localizePath(lang, `/currency/${from.toLowerCase()}-${to.toLowerCase()}`),
+}));
+
+const fmt = (val: number, code: string) =>
+  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: code,
+    maximumFractionDigits: code === 'JPY' ? 0 : 4,
+  }).format(val);
+---
+
+<BaseLayout lang={lang} title={`${cur.title} | FinCalc`} description={cur.description} path="/currency">
+  <section class="page-head container">
+    <h1>{cur.title}</h1>
+    <p class="page-head__desc">{cur.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <CurrencyConverter lang={lang} from={defaultFrom} to={defaultTo} amount={100} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{cur.popularTitle}</h2>
+    <div class="table-wrap">
+      <table class="rate-table">
+        <thead>
+          <tr>
+            <th>{cur.from}</th>
+            <th>{cur.to}</th>
+            <th>{cur.rate}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {popular.map((row) => (
+            <tr>
+              <td>
+                <a href={row.href}>{currencies[row.from].flag} {row.from}</a>
+              </td>
+              <td>
+                <a href={row.href}>{currencies[row.to].flag} {row.to}</a>
+              </td>
+              <td class="rate-table__num">{fmt(row.rate, row.to)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="calc__note">{cur.fallbackNote}</p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

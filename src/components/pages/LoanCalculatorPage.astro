@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import LoanCalculator from '../LoanCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const loan = tr.loan;
+
+const related = [
+  { href: localizePath(lang, '/compound-interest'), label: tr.nav.compound },
+  { href: localizePath(lang, '/currency'), label: tr.nav.currency },
+];
+---
+
+<BaseLayout lang={lang} title={`${loan.title} | FinCalc`} description={loan.description} path="/loan-calculator">
+  <section class="page-head container">
+    <h1>{loan.title}</h1>
+    <p class="page-head__desc">{loan.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <LoanCalculator lang={lang} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{loan.howToTitle}</h2>
+    <ol class="howto">
+      {loan.howTo.map((step) => <li>{step}</li>)}
+    </ol>
+    <p class="related">
+      {related.map((r, i) => (<>
+        {i > 0 && ' · '}
+        <a href={r.href}>{r.label}</a>
+      </>))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

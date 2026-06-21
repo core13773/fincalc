@@ -1,0 +1,59 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).vat;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+---
+
+<form id="vat-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.amount}</span>
+      <input type="number" name="amount" inputmode="decimal" min="0" step="any"
+        value={lang === 'ko' ? 1000000 : 1000} data-vat-amount />
+    </label>
+    <label class="field field--narrow">
+      <span class="field__label">{tr.rate}</span>
+      <input type="number" name="rate" inputmode="decimal" min="0" step="0.1"
+        value="10" data-vat-rate />
+    </label>
+  </div>
+
+  <fieldset class="radio-group">
+    <legend>{tr.type}</legend>
+    <label class="radio">
+      <input type="radio" name="vat-type" value="exclusive" data-vat-type checked />
+      {tr.exclusive}
+    </label>
+    <label class="radio">
+      <input type="radio" name="vat-type" value="inclusive" data-vat-type />
+      {tr.inclusive}
+    </label>
+  </fieldset>
+
+  <div class="results">
+    <div class="result-grid three">
+      <div class="result">
+        <span class="result__label">{tr.supply}</span>
+        <span class="result__value" data-vat-supply>—</span>
+      </div>
+      <div class="result">
+        <span class="result__label">{tr.vatAmount}</span>
+        <span class="result__value" data-vat-vat>—</span>
+      </div>
+      <div class="result result--accent">
+        <span class="result__label">{tr.total}</span>
+        <span class="result__value" data-vat-total>—</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+
+  <script is:inline src="/js/vat.js" defer></script>
+</form>

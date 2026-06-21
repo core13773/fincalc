@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import { DEFAULT_SITE_ORIGIN } from '../../consts';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+
+const tools = [
+  { href: '/loan-calculator', icon: '🏦', title: tr.loan.title, desc: tr.loan.description },
+  { href: '/compound-interest', icon: '📈', title: tr.compound.title, desc: tr.compound.description },
+  { href: '/currency', icon: '💱', title: tr.currency.title, desc: tr.currency.description },
+  { href: '/percentage', icon: '％', title: tr.percentage.title, desc: tr.percentage.description },
+  { href: '/vat', icon: '🧾', title: tr.vat.title, desc: tr.vat.description },
+].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
+
+const origin = Astro.site?.origin ?? DEFAULT_SITE_ORIGIN;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'FinCalc',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Web',
+  inLanguage: lang === 'ko' ? 'ko-KR' : 'en-US',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  url: new URL(localizePath(lang, ''), origin).href,
+};
+---
+
+<BaseLayout lang={lang} title={tr.site.title} description={tr.site.description} path="" jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="container">
+      <span class="badge">{tr.home.heroBadge}</span>
+      <h1>{tr.home.heroTitle}</h1>
+      <p class="hero__sub">{tr.home.heroSub}</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href={localizePath(lang, '/loan-calculator')}>{tr.home.ctaLoan}</a>
+        <a class="btn btn--ghost" href={localizePath(lang, '/compound-interest')}>{tr.home.ctaCompound}</a>
+        <a class="btn btn--ghost" href={localizePath(lang, '/currency')}>{tr.home.ctaCurrency}</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{tr.home.toolsTitle}</h2>
+    <div class="tool-grid">
+      {tools.map((tool) => (
+        <a class="tool-card" href={tool.href}>
+          <span class="tool-card__icon" aria-hidden="true">{tool.icon}</span>
+          <span class="tool-card__title">{tool.title}</span>
+          <span class="tool-card__desc">{tool.desc}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2 class="section__title">{tr.home.featuresTitle}</h2>
+    <div class="feature-grid">
+      {tr.home.features.map((f) => (
+        <div class="feature-card">
+          <h3>{f.title}</h3>
+          <p>{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import { ADSENSE_CLIENT } from '../consts';
+
+interface Props {
+  /** AdSense slot id, e.g. '1234567890'. Create per-slot in the AdSense dashboard. */
+  slot?: string;
+  /** Layout hint. */
+  variant?: 'leaderboard' | 'rectangle' | 'inline';
+  class?: string;
+}
+const { slot = '0000000000', variant = 'leaderboard', class: className = '' } = Astro.props;
+const enabled = ADSENSE_CLIENT !== '';
+---
+
+{
+  enabled ? (
+    <div class:list={['ad-unit', `ad-slot--${variant}`, className]}>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={ADSENSE_CLIENT}
+        data-ad-slot={slot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+      <script is:inline set:html={`(adsbygoogle = window.adsbygoogle || []).push({});`} />
+    </div>
+  ) : (
+    <div class:list={['ad-slot', `ad-slot--${variant}`, className]} data-slot={slot} aria-hidden="true">
+      <span class="ad-slot__label">Advertisement · 광고</span>
+    </div>
+  )
+}

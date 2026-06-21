@@ -1,0 +1,7 @@
+---
+import CurrencyPairPage from '../../../components/pages/CurrencyPairPage.astro';
+import { currencyPairPaths } from '../../../data/currencies';
+
+export const getStaticPaths = () => currencyPairPaths();
+---
+<CurrencyPairPage lang="en" from={Astro.props.from} to={Astro.props.to} />

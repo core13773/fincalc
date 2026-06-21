@@ -1,0 +1,99 @@
+---
+import {
+  currencyCodes,
+  currencies,
+  referenceRatesUSD,
+  convert,
+  rateBetween,
+} from '../data/currencies';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+  from?: string;
+  to?: string;
+  amount?: number;
+}
+const { lang, from = 'USD', to = 'KRW', amount = 100 } = Astro.props;
+const tr = t(lang).currency;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const curFmt = (code: string, maximumFractionDigits = 2) =>
+  new Intl.NumberFormat(locale, { style: 'currency', currency: code, maximumFractionDigits }).format;
+
+const initRate = rateBetween(referenceRatesUSD, from, to);
+const initInverse = rateBetween(referenceRatesUSD, to, from);
+const initResult = convert(amount, referenceRatesUSD, from, to);
+
+const fmtTo = curFmt(to);
+const fmtFrom = curFmt(from);
+const fmtResult = curFmt(to, to === 'JPY' ? 0 : 2);
+---
+
+<form id="currency-calc" class="calc calc--currency" data-locale={locale}>
+  <label class="field">
+    <span class="field__label">{tr.amount}</span>
+    <span class="field__input-wrap">
+      <span class="field__prefix" data-symbol>{currencies[from].symbol}</span>
+      <input type="number" name="amount" inputmode="decimal" min="0" step="any"
+        value={amount} required data-amount />
+    </span>
+  </label>
+
+  <div class="currency-row">
+    <label class="field field--grow">
+      <span class="field__label">{tr.from}</span>
+      <select name="from" data-from>
+        {currencyCodes.map((code) => (
+          <option value={code} selected={code === from}>
+            {currencies[code].flag} {code} · {currencies[code].name[lang]}
+          </option>
+        ))}
+      </select>
+    </label>
+
+    <button type="button" class="btn btn--icon" data-swap aria-label={tr.swap}>{tr.swap}</button>
+
+    <label class="field field--grow">
+      <span class="field__label">{tr.to}</span>
+      <select name="to" data-to>
+        {currencyCodes.map((code) => (
+          <option value={code} selected={code === to}>
+            {currencies[code].flag} {code} · {currencies[code].name[lang]}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="results" data-results>
+    <div class="result result--primary">
+      <span class="result__label">{tr.result}</span>
+      <span class="result__value" data-result>{fmtResult(initResult)}</span>
+    </div>
+    <div class="rate-grid">
+      <div class="rate">
+        <span class="rate__label">{tr.rate} {currencies[from].code}</span>
+        <span class="rate__value" data-rate>
+          1 {currencies[from].code} = {fmtTo(initRate)}
+        </span>
+      </div>
+      <div class="rate">
+        <span class="rate__label">{tr.inverseRate} {currencies[to].code}</span>
+        <span class="rate__value" data-inverse>
+          1 {currencies[to].code} = {fmtFrom(initInverse)}
+        </span>
+      </div>
+    </div>
+    <p class="rate-status" data-status>{tr.liveUpdated}</p>
+  </div>
+
+  <script type="application/json" id="cc-data" set:html={JSON.stringify({
+    fallback: referenceRatesUSD,
+    locale,
+    labels: { live: tr.liveUpdated, fallback: tr.fallbackNote },
+  })} />
+
+  <script is:inline src="/js/currency.js" defer></script>
+</form>

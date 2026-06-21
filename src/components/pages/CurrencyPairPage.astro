@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import CurrencyConverter from '../CurrencyConverter.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import {
+  currencies,
+  currencyName,
+  currencyPairs,
+  referenceRatesUSD,
+  rateBetween,
+} from '../../data/currencies';
+import { DEFAULT_SITE_ORIGIN } from '../../consts';
+
+interface Props {
+  lang: Locale;
+  from: string;
+  to: string;
+}
+const { lang, from, to } = Astro.props;
+const tr = t(lang);
+const cur = tr.currency;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+
+const rate = rateBetween(referenceRatesUSD, from, to);
+const fmtRate = new Intl.NumberFormat(locale, {
+  style: 'currency',
+  currency: to,
+  maximumFractionDigits: to === 'JPY' ? 0 : 4,
+}).format(rate);
+
+const fromName = currencyName(from, lang);
+const toName = currencyName(to, lang);
+
+const title =
+  lang === 'ko'
+    ? `${fromName}(${from}) → ${toName}(${to}) 환율 계산기 | FinCalc`
+    : `${from} to ${to} Converter — Live Exchange Rate | FinCalc`;
+const description =
+  lang === 'ko'
+    ? `1 ${from} = ${fmtRate} ${to}. ${fromName}를 ${toName}로 변환하는 실시간 환율 계산기. 여행·송금·쇼핑 금액을 빠르게 환산하세요.`
+    : `1 ${from} = ${fmtRate} ${to}. Live ${from} to ${to} exchange rate converter for travel, transfers, and shopping.`;
+
+const slug = `${from.toLowerCase()}-${to.toLowerCase()}`;
+const reverseSlug = `${to.toLowerCase()}-${from.toLowerCase()}`;
+const reverseHref = localizePath(lang, `/currency/${reverseSlug}`);
+
+const aboutText =
+  lang === 'ko'
+    ? `${fromName}(${from})를 ${toName}(${to})로 환산하는 무료 환율 계산기입니다. 현재 참고 환율은 1 ${from} = ${fmtRate} ${to} 이며, 금액을 입력하면 실시간 환율로 즉시 변환됩니다. 환율은 실시간 데이터를 기준으로 하며 네트워크 상황에 따라 참고용 기준 환율이 표시될 수 있습니다.`
+    : `Free ${fromName} (${from}) to ${toName} (${to}) currency converter. The current reference rate is 1 ${from} = ${fmtRate} ${to}. Enter any amount for an instant conversion using live rates. When live rates are unavailable, indicative reference rates are shown.`;
+
+const related = currencyPairs
+  .filter(([f, t2]) => !(f === from && t2 === to) && !(f === to && t2 === from))
+  .slice(0, 8)
+  .map(([f, t2]) => ({
+    href: localizePath(lang, `/currency/${f.toLowerCase()}-${t2.toLowerCase()}`),
+    label: `${f} → ${t2}`,
+  }));
+
+const origin = Astro.site?.origin ?? DEFAULT_SITE_ORIGIN;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: lang === 'ko' ? `${from}에서 ${to}로 환율 계산기` : `${from} to ${to} Converter`,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Web',
+  inLanguage: lang === 'ko' ? 'ko-KR' : 'en-US',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  url: new URL(localizePath(lang, `/currency/${slug}`), origin).href,
+};
+---
+
+<BaseLayout lang={lang} title={title} description={description} path={`/currency/${slug}`} jsonLd={jsonLd}>
+  <section class="page-head container">
+    <h1>
+      <span class="flags">{currencies[from].flag} → {currencies[to].flag}</span>
+      {lang === 'ko' ? `${fromName}(${from}) → ${toName}(${to})` : `${from} to ${to}`}
+    </h1>
+    <p class="page-head__desc">{description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <CurrencyConverter lang={lang} from={from} to={to} amount={1} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{lang === 'ko' ? `${from} / ${to} 환율 안내` : `About ${from} / ${to}`}</h2>
+    <p class="prose">{aboutText}</p>
+    <p class="related">
+      <a href={reverseHref}>
+        {lang === 'ko' ? `${to} → ${from} 환율 보기` : `View ${to} to ${from} rate`} ↗
+      </a>
+    </p>
+    <h3 class="subsection__title">{cur.popularTitle}</h3>
+    <p class="tag-links">
+      {related.map((r) => (<a href={r.href}>{r.label}</a>))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

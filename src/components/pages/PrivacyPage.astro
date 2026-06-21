@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import { t } from '../../i18n/ui';
+import { type Locale } from '../../i18n/config';
+import { CONTACT_EMAIL } from '../../consts';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const tr = t(lang);
+const ko = lang === 'ko';
+
+const lastUpdated = ko ? '최근 업데이트: 2026년' : 'Last updated: 2026';
+
+const h2 = (k: string, e: string) => (ko ? k : e);
+---
+
+<BaseLayout
+  lang={lang}
+  path="/privacy"
+  title={`${tr.footer.legal.privacy} | FinCalc`}
+  description={ko
+    ? 'FinCalc 개인정보처리방침 — 계산기 입력값은 저장하지 않으며, Google AdSense 광고와 쿠키 사용에 대한 안내입니다.'
+    : 'FinCalc privacy policy — calculator inputs are never stored. Covers Google AdSense and cookie use.'}
+>
+  <section class="page-head container">
+    <h1>{tr.footer.legal.privacy}</h1>
+    <p class="page-head__desc">{lastUpdated}</p>
+  </section>
+
+  <div class="container layout-prose">
+    <AdSlot variant="leaderboard" />
+    <div class="prose">
+      <p>{ko
+        ? `FinCalc(이하 "당사")는 사용자의 개인정보를 존중하며, 본 방침은 당사가 정보를 어떻게 다루는지 설명합니다. 당사의 모든 계산기는 브라우저에서 직접 실행되며, 회원가입이나 로그인 없이 이용할 수 있습니다.`
+        : `FinCalc ("we") respects your privacy. This policy explains how we handle information. All of our calculators run directly in your browser and require no sign-up or login.`}</p>
+
+      <h2>{h2('수집하는 정보', 'Information we collect')}</h2>
+      <p>{ko
+        ? `당사의 계산기에 입력하는 모든 값(금액, 이자율, 통화 등)은 사용자의 브라우저에서만 처리되며 서버로 전송되거나 저장되지 않습니다. 당사는 이메일 문의를 통해서만, 사용자가 자발적으로 제공한 연락처 정보를 수집합니다.`
+        : `Any values you enter into our calculators (amounts, rates, currencies, etc.) are processed only in your browser and are never transmitted to or stored on our servers. We only collect contact details you voluntarily provide when you email us.`}</p>
+
+      <h2>{h2('쿠키 및 유사 기술', 'Cookies and similar technologies')}</h2>
+      <p>{ko
+        ? `당사는 필수 기능의 제공과 사용 통계 파악을 위해 쿠키를 사용할 수 있습니다. 브라우저 설정에서 쿠키를 차단할 수 있으며, 이 경우 일부 기능에 제한이 있을 수 있습니다.`
+        : `We may use cookies to provide essential functionality and understand usage. You can block cookies in your browser settings, though some features may be limited.`}</p>
+
+      <h2>{h2('제3자 광고 (Google AdSense)', 'Third-party advertising (Google AdSense)')}</h2>
+      <p>{ko
+        ? `당사는 Google AdSense를 통해 제3자 광고를 게재할 수 있습니다. Google은 사용자의 관심사 기반 맞춤 광고를 제공하기 위해 쿠키(DART 쿠키 포함)를 사용할 수 있습니다. 사용자는 Google 광고 설정(adssettings.google.com)에서 맞춤 광고를 비활성화하거나, 브라우저에서 서드파티 쿠키를 차단할 수 있습니다.`
+        : `We may display third-party ads via Google AdSense. Google, including its DoubleClick DART cookie, may use cookies to serve ads based on your prior visits. You can opt out of personalized advertising in Google Ads Settings (adssettings.google.com) or by blocking third-party cookies in your browser.`}</p>
+
+      <h2>{h2('제3자 서비스', 'Third-party services')}</h2>
+      <p>{ko
+        ? `실시간 환율 정보 제공을 위해 제3자 환율 API를 이용하며, 해당 서비스의 개인정보처리방침이 적용될 수 있습니다.`
+        : `We use a third-party exchange-rate API to provide live currency rates. That service's own privacy practices may apply.`}</p>
+
+      <h2>{h2('아동의 개인정보', "Children's privacy")}</h2>
+      <p>{ko
+        ? `본 서비스는 13세 미만 아동을 대상으로 하지 않으며, 고의로 아동의 개인정보를 수집하지 않습니다.`
+        : `Our service is not directed to children under 13, and we do not knowingly collect personal information from children.`}</p>
+
+      <h2>{h2('방침 변경', 'Changes to this policy')}</h2>
+      <p>{ko
+        ? `본 방침은 시간에 따라 업데이트될 수 있으며, 변경 시 이 페이지에 게시합니다.`
+        : `This policy may be updated over time. Changes will be posted on this page.`}</p>
+
+      <h2>{h2('연락처', 'Contact')}</h2>
+      <p>{ko
+        ? `본 방침에 대해 문의가 있으시면 `
+        : `If you have questions about this policy, contact us at `}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{ko ? '로 연락해 주세요.' : '.'}</p>
+    </div>
+  </div>
+</BaseLayout>

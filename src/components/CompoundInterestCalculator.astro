@@ -1,0 +1,95 @@
+---
+import { currencyCodes, currencies } from '../data/currencies';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).compound;
+const common = t(lang).common;
+const defaultCurrency = lang === 'ko' ? 'KRW' : 'USD';
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+---
+
+<form id="compound-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.principal}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix" data-symbol>{currencies[defaultCurrency].symbol}</span>
+        <input type="number" name="principal" inputmode="decimal" min="0" step="any"
+          value={lang === 'ko' ? 10000000 : 10000} required data-principal />
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">{tr.monthly}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix" data-symbol-monthly>{currencies[defaultCurrency].symbol}</span>
+        <input type="number" name="monthly" inputmode="decimal" min="0" step="any"
+          value={lang === 'ko' ? 500000 : 500} required data-monthly />
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">{tr.rate}</span>
+      <input type="number" name="rate" inputmode="decimal" min="0" step="0.01"
+        value="7" required data-rate />
+    </label>
+
+    <label class="field">
+      <span class="field__label">{tr.years}</span>
+      <input type="number" name="years" inputmode="numeric" min="0" step="1"
+        value="20" required data-years />
+    </label>
+
+    <label class="field field--narrow">
+      <span class="field__label">{common.currency}</span>
+      <select name="currency" data-currency>
+        {currencyCodes.map((code) => (
+          <option value={code} selected={code === defaultCurrency}>
+            {currencies[code].flag} {code} · {currencies[code].name[lang]}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="calc__actions">
+    <button type="submit" class="btn btn--primary">{tr.calc}</button>
+    <button type="button" class="btn btn--ghost" data-reset>{tr.reset}</button>
+  </div>
+
+  <div class="results" data-results>
+    <div class="result result--primary">
+      <span class="result__label">{tr.balance}</span>
+      <span class="result__value" data-balance>—</span>
+    </div>
+    <div class="result-grid">
+      <div class="result">
+        <span class="result__label">{tr.contributed}</span>
+        <span class="result__value" data-contributed>—</span>
+      </div>
+      <div class="result">
+        <span class="result__label">{tr.interest}</span>
+        <span class="result__value" data-interest>—</span>
+      </div>
+    </div>
+
+    <div class="ratio-bar" aria-hidden="true">
+      <div class="ratio-bar__seg ratio-bar__seg--principal" data-bar-principal style="width:0"></div>
+      <div class="ratio-bar__seg ratio-bar__seg--interest" data-bar-interest style="width:0"></div>
+    </div>
+    <div class="ratio-legend">
+      <span class="dot dot--principal"></span>{tr.contributed} <span data-pct-principal>0%</span>
+      &nbsp;·&nbsp;
+      <span class="dot dot--interest"></span>{tr.interest} <span data-pct-interest>0%</span>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+</form>
+
+<script is:inline src="/js/compound.js" defer></script>

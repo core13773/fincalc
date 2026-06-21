@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const tr = t(lang);
+const ko = lang === 'ko';
+
+const tools = [
+  { href: localizePath(lang, '/loan-calculator'), label: tr.nav.loan },
+  { href: localizePath(lang, '/compound-interest'), label: tr.nav.compound },
+  { href: localizePath(lang, '/currency'), label: tr.nav.currency },
+  { href: localizePath(lang, '/percentage'), label: tr.nav.percentage },
+  { href: localizePath(lang, '/vat'), label: tr.nav.vat },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  path="/about"
+  title={`${tr.footer.legal.about} FinCalc`}
+  description={ko
+    ? 'FinCalc는 대출·복리·환율·퍼센트·부가세 계산기를 무료로 제공하는 다국어 금융 도구입니다.'
+    : 'FinCalc is a free, bilingual hub of finance calculators — loan, compound interest, currency, percentage, and VAT.'}
+>
+  <section class="page-head container">
+    <h1>{tr.footer.legal.about} FinCalc</h1>
+    <p class="page-head__desc">{tr.footer.about}</p>
+  </section>
+
+  <div class="container layout-prose">
+    <AdSlot variant="leaderboard" />
+    <div class="prose">
+      <p>{ko
+        ? `FinCalc는 누구나 무료로 사용할 수 있는 다국어(한국어·English) 금융 계산기 모음입니다. 빠르고 가벼운 정적 웹사이트로, 회원가입 없이 브라우저에서 바로 계산할 수 있습니다.`
+        : `FinCalc is a free, bilingual (Korean and English) collection of finance calculators. It's a fast, lightweight static website — calculate instantly in your browser, with no sign-up.`}</p>
+
+      <p>{ko
+        ? `모든 계산기는 사용자의 브라우저에서 직접 실행되며, 입력값은 서버로 전송되거나 저장되지 않습니다. 정확한 표준 금융 수식을 사용하지만, 결과는 참고용이며 전문가의 조언을 대체하지 않습니다.`
+        : `Every calculator runs entirely in your browser; your inputs are never sent to or stored on a server. We use standard financial formulas, but results are for reference only and do not replace professional advice.`}</p>
+
+      <h2>{ko ? '제공하는 도구' : 'Our tools'}</h2>
+      <ul>
+        {tools.map((tool) => <li><a href={tool.href}>{tool.label}</a></li>)}
+      </ul>
+
+      <h2>{ko ? '문의' : 'Get in touch'}</h2>
+      <p>
+        {ko ? '제안이나 오류 신고가 있으시면 ' : 'For suggestions or bug reports, visit our '}
+        <a href={localizePath(lang, '/contact')}>{tr.footer.legal.contact}</a>{ko ? ' 페이지를 이용해 주세요.' : ' page.'}
+      </p>
+    </div>
+  </div>
+</BaseLayout>

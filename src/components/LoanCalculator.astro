@@ -1,0 +1,86 @@
+---
+import { currencyCodes, currencies } from '../data/currencies';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).loan;
+const common = t(lang).common;
+const defaultCurrency = lang === 'ko' ? 'KRW' : 'USD';
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+---
+
+<form id="loan-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.amount}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix" data-symbol>{currencies[defaultCurrency].symbol}</span>
+        <input type="number" name="amount" inputmode="decimal" min="0" step="any"
+          value={lang === 'ko' ? 100000000 : 200000} required data-amount />
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">{tr.rate}</span>
+      <input type="number" name="rate" inputmode="decimal" min="0" step="0.01"
+        value="4.5" required data-rate />
+    </label>
+
+    <label class="field">
+      <span class="field__label">{tr.years}</span>
+      <input type="number" name="years" inputmode="numeric" min="0" step="1"
+        value="30" required data-years />
+    </label>
+
+    <label class="field field--narrow">
+      <span class="field__label">{common.currency}</span>
+      <select name="currency" data-currency>
+        {currencyCodes.map((code) => (
+          <option value={code} selected={code === defaultCurrency}>
+            {currencies[code].flag} {code} · {currencies[code].name[lang]}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="calc__actions">
+    <button type="submit" class="btn btn--primary">{tr.calc}</button>
+    <button type="button" class="btn btn--ghost" data-reset>{tr.reset}</button>
+  </div>
+
+  <div class="results" data-results>
+    <div class="result result--primary">
+      <span class="result__label">{tr.monthlyPayment}</span>
+      <span class="result__value" data-monthly>—</span>
+    </div>
+    <div class="result-grid">
+      <div class="result">
+        <span class="result__label">{tr.totalPayment}</span>
+        <span class="result__value" data-total>—</span>
+      </div>
+      <div class="result">
+        <span class="result__label">{tr.totalInterest}</span>
+        <span class="result__value" data-interest>—</span>
+      </div>
+    </div>
+
+    <div class="ratio-bar" aria-hidden="true">
+      <div class="ratio-bar__seg ratio-bar__seg--principal" data-bar-principal style="width:0"></div>
+      <div class="ratio-bar__seg ratio-bar__seg--interest" data-bar-interest style="width:0"></div>
+    </div>
+    <div class="ratio-legend">
+      <span class="dot dot--principal"></span>{tr.principal} <span data-pct-principal>0%</span>
+      &nbsp;·&nbsp;
+      <span class="dot dot--interest"></span>{tr.totalInterest} <span data-pct-interest>0%</span>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+</form>
+
+<script is:inline src="/js/loan.js" defer></script>
