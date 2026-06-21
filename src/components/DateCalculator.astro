@@ -1,0 +1,71 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).date;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+const ymd = lang === 'ko' ? '{y}년 {mo}개월 {da}일' : '{y}y {mo}mo {da}d';
+---
+
+<form id="date-calc" class="calc" data-locale={locale}>
+  <h3 class="calc__subtitle">{tr.ddayTitle}</h3>
+  <div class="calc-row">
+    <label class="field">
+      <span class="field__label">{tr.targetDate}</span>
+      <input type="date" data-date-target />
+    </label>
+    <span class="pct-eq">→</span>
+    <span class="result-inline" data-dday-label>—</span>
+    <span class="result-inline muted small" data-dday-days></span>
+  </div>
+
+  <h3 class="calc__subtitle">{tr.diffTitle}</h3>
+  <div class="calc-row">
+    <label class="field">
+      <span class="field__label">{tr.fromDate}</span>
+      <input type="date" data-date-from />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.toDate}</span>
+      <input type="date" data-date-to />
+    </label>
+    <span class="pct-eq">=</span>
+    <span class="result-inline" data-diff-days>—</span>
+  </div>
+  <div class="rate-grid">
+    <div class="rate"><span class="rate__label">{tr.totalWeeks}</span><span class="rate__value" data-diff-weeks>—</span></div>
+    <div class="rate"><span class="rate__label">Y/M/D</span><span class="rate__value" data-diff-ymd>—</span></div>
+  </div>
+
+  <h3 class="calc__subtitle">{tr.addTitle}</h3>
+  <div class="calc-row">
+    <label class="field">
+      <span class="field__label">{tr.baseDate}</span>
+      <input type="date" data-add-base />
+    </label>
+    <label class="field field--narrow">
+      <span class="field__label">{tr.amount}</span>
+      <input type="number" data-add-amount value="30" />
+    </label>
+    <label class="field field--narrow">
+      <span class="field__label">{tr.unit}</span>
+      <select data-add-unit>
+        <option value="day">{tr.day}</option>
+        <option value="week">{tr.week}</option>
+        <option value="month">{tr.month}</option>
+        <option value="year">{tr.year}</option>
+      </select>
+    </label>
+    <span class="pct-eq">=</span>
+    <span class="result-inline" data-add-result>—</span>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+
+  <script type="application/json" id="date-data" set:html={JSON.stringify({ locale, labels: { daysUntil: tr.daysUntil, daysAgo: tr.daysAgo, ymd } })} />
+  <script is:inline src="/js/date.js" defer></script>
+</form>

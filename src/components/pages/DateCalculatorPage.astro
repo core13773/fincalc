@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import DateCalculator from '../DateCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const d = tr.date;
+
+const related = [
+  { href: localizePath(lang, '/age'), label: tr.nav.age },
+  { href: localizePath(lang, '/unit'), label: tr.nav.unit },
+  { href: localizePath(lang, '/percentage'), label: tr.nav.percentage },
+];
+---
+
+<BaseLayout lang={lang} path="/date" title={`${d.title} | FinCalc`} description={d.description}>
+  <section class="page-head container">
+    <h1>{d.title}</h1>
+    <p class="page-head__desc">{d.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <DateCalculator lang={lang} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <p class="related">
+      {related.map((r, i) => (<>
+        {i > 0 && ' · '}
+        <a href={r.href}>{r.label}</a>
+      </>))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>
