@@ -19,7 +19,13 @@ const tools = [
   { href: '/income-tax', label: tr.nav.incomeTax },
   { href: '/age', label: tr.nav.age },
   { href: '/date', label: tr.nav.date },
-  ...(lang === 'ko' ? [{ href: '/salary', label: tr.salary.title }] : []),
+  { href: '/stock', label: tr.stock.title },
+  { href: '/savings', label: tr.savings.title },
+  ...(lang === 'ko' ? [
+    { href: '/salary', label: tr.salary.title },
+    { href: '/severance', label: tr.severance.title },
+    { href: '/dsr', label: tr.dsr.title },
+  ] : []),
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 
 const legal = [

@@ -1,0 +1,51 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).stock;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+---
+
+<form id="stock-calc" class="calc" data-locale={locale}>
+  <h3 class="calc__subtitle">{tr.avgTitle}</h3>
+  <div class="calc__fields">
+    <label class="field"><span class="field__label">{tr.heldShares}</span><input type="number" min="0" data-st-held value="100" /></label>
+    <label class="field"><span class="field__label">{tr.heldAvg}</span><input type="number" min="0" step="any" data-st-heldavg value="50000" /></label>
+    <label class="field"><span class="field__label">{tr.buyShares}</span><input type="number" min="0" data-st-buy value="50" /></label>
+    <label class="field"><span class="field__label">{tr.buyPrice}</span><input type="number" min="0" step="any" data-st-buyprice value="60000" /></label>
+  </div>
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.newAvg}</span>
+      <span class="result__value" data-st-newavg>—</span>
+    </div>
+    <div class="result-grid">
+      <div class="result"><span class="result__label">{tr.totalShares}</span><span class="result__value" data-st-totalsh>—</span></div>
+      <div class="result"><span class="result__label">{tr.totalCost}</span><span class="result__value" data-st-totalcost>—</span></div>
+    </div>
+  </div>
+
+  <h3 class="calc__subtitle">{tr.roiTitle}</h3>
+  <div class="calc__fields">
+    <label class="field"><span class="field__label">{tr.buyPrice2}</span><input type="number" min="0" step="any" data-st-bp value="50000" /></label>
+    <label class="field"><span class="field__label">{tr.sellPrice}</span><input type="number" min="0" step="any" data-st-sp value="55000" /></label>
+    <label class="field"><span class="field__label">{tr.shares}</span><input type="number" min="0" data-st-sh value="100" /></label>
+  </div>
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.roi}</span>
+      <span class="result__value" data-st-roi>—</span>
+    </div>
+    <div class="rate">
+      <span class="rate__label">{tr.profit}</span>
+      <span class="rate__value" data-st-profit>—</span>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+  <script is:inline src="/js/stock.js" defer></script>
+</form>

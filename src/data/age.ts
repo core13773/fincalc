@@ -1,8 +1,8 @@
 // Age calculator data + computation.
 
-/** Birth years covered by programmatic SEO pages (working-age adults). */
+/** Birth years covered by programmatic SEO pages. */
 export const ageYears: number[] = [];
-for (let y = 1960; y <= 2010; y++) ageYears.push(y);
+for (let y = 1920; y <= 2020; y++) ageYears.push(y);
 
 export interface AgeBreakdown {
   international: number; // 만 나이

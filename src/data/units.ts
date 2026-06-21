@@ -163,11 +163,11 @@ export function convertUnit(categoryCode: string, value: number, from: string, t
  * All ordered pairs among each list are generated for programmatic SEO pages.
  */
 const PRIORITY_UNITS: Record<string, string[]> = {
-  length: ['km', 'mi', 'm', 'ft', 'cm', 'in'],
+  length: ['km', 'mi', 'm', 'ft', 'cm', 'in', 'yd', 'mm'],
   weight: ['kg', 'lb', 'g', 'oz', 't'],
   temperature: ['C', 'F', 'K'],
-  area: ['m2', 'ft2', 'pyeong', 'acre', 'ha'],
-  volume: ['l', 'galUS', 'ml', 'cup'],
+  area: ['m2', 'ft2', 'pyeong', 'acre', 'ha', 'km2'],
+  volume: ['l', 'galUS', 'ml', 'cup', 'm3', 'qtUS'],
   speed: ['kmh', 'mph', 'mps', 'knot'],
   data: ['KB', 'MB', 'GB', 'TB'],
   time: ['min', 'h', 's', 'day', 'year'],

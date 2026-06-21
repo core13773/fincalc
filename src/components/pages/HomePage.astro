@@ -21,7 +21,13 @@ const tools = [
   { href: '/income-tax', icon: '🧮', title: tr.incomeTax.title, desc: tr.incomeTax.description },
   { href: '/age', icon: '🎂', title: tr.age.title, desc: tr.age.description },
   { href: '/date', icon: '📅', title: tr.date.title, desc: tr.date.description },
-  ...(lang === 'ko' ? [{ href: '/salary', icon: '💰', title: tr.salary.title, desc: tr.salary.description }] : []),
+  { href: '/stock', icon: '📊', title: tr.stock.title, desc: tr.stock.description },
+  { href: '/savings', icon: '🐷', title: tr.savings.title, desc: tr.savings.description },
+  ...(lang === 'ko' ? [
+    { href: '/salary', icon: '💰', title: tr.salary.title, desc: tr.salary.description },
+    { href: '/severance', icon: '🧾', title: tr.severance.title, desc: tr.severance.description },
+    { href: '/dsr', icon: '🏠', title: tr.dsr.title, desc: tr.dsr.description },
+  ] : []),
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 
 const origin = Astro.site?.origin ?? DEFAULT_SITE_ORIGIN;

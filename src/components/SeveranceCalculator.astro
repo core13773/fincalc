@@ -1,0 +1,48 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang).severance;
+---
+
+<form id="severance-calc" class="calc" data-locale="ko-KR">
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.salary}</span>
+      <span class="field__input-wrap">
+        <span class="field__prefix">₩</span>
+        <input type="number" min="0" step="any" data-sev-salary value="40000000" />
+      </span>
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.startDate}</span>
+      <input type="date" data-sev-start />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.endDate}</span>
+      <input type="date" data-sev-end />
+    </label>
+  </div>
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.severance}</span>
+      <span class="result__value" data-sev-amount>—</span>
+    </div>
+    <div class="result-grid">
+      <div class="result">
+        <span class="result__label">{tr.monthlyAvg}</span>
+        <span class="result__value" data-sev-monthly>—</span>
+      </div>
+      <div class="result">
+        <span class="result__label">{tr.years}</span>
+        <span class="result__value" data-sev-years>—</span>
+      </div>
+    </div>
+  </div>
+  <p class="calc__note">{tr.note}</p>
+  <script is:inline src="/js/severance.js" defer></script>
+</form>

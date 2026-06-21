@@ -8,7 +8,7 @@
 - SEO: 페이지별 title/description, canonical, **hreflang**(ko/en/x-default), OG, JSON-LD, 자동 사이트맵
 - 광고: **환경변수 한 번으로 AdSense on/off** — 토큰 없으면 자리표시자, 토큰 넣으면 실제 `<ins>` 광고 자동 렌더
 
-## 도구 (10종)
+## 도구 (14종)
 
 | 도구 | 경로 |
 |---|---|
@@ -22,6 +22,10 @@
 | **나이 계산기** + 출생연도 pSEO | `/age`, `/age/1990` 등 |
 | **날짜/D-day 계산기** | `/date` |
 | **연봉 실수령액 계산기** (한국, KO) | `/salary` |
+| **주식 평단가·수익률 계산기** | `/stock` |
+| **적금 이자 계산기** | `/savings` |
+| **퇴직금 계산기** (한국, KO) | `/severance` |
+| **DSR 총부채상환비율 계산기** (한국, KO) | `/dsr` |
 
 ## 정보/법적 페이지 (AdSense 승인 필수)
 
@@ -34,7 +38,7 @@
 npm install
 cp .env.example .env      # (선택) AdSense/GSC 토큰 입력
 npm run dev               # http://localhost:4321
-npm run build             # → dist/ (정적, 454페이지)
+npm run build             # → dist/ (정적, 692페이지)
 npm run preview           # dist/ 미리보기
 ```
 

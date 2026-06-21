@@ -25,6 +25,7 @@
   var SYMBOLS = {
     USD: '$', KRW: '₩', EUR: '€', JPY: '¥', CNY: '¥', GBP: '£',
     AUD: 'A$', CAD: 'C$', CHF: 'CHF', HKD: 'HK$', SGD: 'S$', INR: '₹',
+    BRL: 'R$', RUB: '₽', MXN: 'MX$', THB: '฿', TWD: 'NT$', VND: '₫',
   };
 
   function rateValue(rates, from, to) {

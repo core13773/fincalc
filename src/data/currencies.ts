@@ -20,6 +20,12 @@ export const currencies: Record<string, Currency> = {
   HKD: { code: 'HKD', name: { ko: '홍콩 달러', en: 'Hong Kong Dollar' }, symbol: 'HK$', flag: '🇭🇰' },
   SGD: { code: 'SGD', name: { ko: '싱가포르 달러', en: 'Singapore Dollar' }, symbol: 'S$', flag: '🇸🇬' },
   INR: { code: 'INR', name: { ko: '인도 루피', en: 'Indian Rupee' }, symbol: '₹', flag: '🇮🇳' },
+  BRL: { code: 'BRL', name: { ko: '브라질 헤알', en: 'Brazilian Real' }, symbol: 'R$', flag: '🇧🇷' },
+  RUB: { code: 'RUB', name: { ko: '러시아 루블', en: 'Russian Ruble' }, symbol: '₽', flag: '🇷🇺' },
+  MXN: { code: 'MXN', name: { ko: '멕시코 페소', en: 'Mexican Peso' }, symbol: 'MX$', flag: '🇲🇽' },
+  THB: { code: 'THB', name: { ko: '태국 바트', en: 'Thai Baht' }, symbol: '฿', flag: '🇹🇭' },
+  TWD: { code: 'TWD', name: { ko: '대만 달러', en: 'Taiwan Dollar' }, symbol: 'NT$', flag: '🇹🇼' },
+  VND: { code: 'VND', name: { ko: '베트남 동', en: 'Vietnamese Dong' }, symbol: '₫', flag: '🇻🇳' },
 };
 
 /** Ordered list of currency codes for the converter dropdowns. */
@@ -47,6 +53,12 @@ export const referenceRatesUSD: Record<string, number> = {
   HKD: 7.8,
   SGD: 1.34,
   INR: 83,
+  BRL: 5.0,
+  RUB: 92,
+  MXN: 17,
+  THB: 36,
+  TWD: 32,
+  VND: 25000,
 };
 
 /** Curated, high-intent pairs for programmatic SEO pages. */
@@ -65,6 +77,12 @@ export const currencyPairs: Array<[string, string]> = [
   ['USD', 'SGD'], ['SGD', 'USD'],
   ['USD', 'INR'], ['INR', 'USD'],
   ['USD', 'CHF'], ['CHF', 'USD'],
+  ['USD', 'BRL'], ['BRL', 'USD'],
+  ['USD', 'RUB'], ['RUB', 'USD'],
+  ['USD', 'MXN'], ['MXN', 'USD'],
+  ['USD', 'THB'], ['THB', 'USD'],
+  ['USD', 'TWD'], ['TWD', 'USD'],
+  ['USD', 'VND'], ['VND', 'USD'],
   ['EUR', 'JPY'], ['GBP', 'JPY'],
 ];
 
