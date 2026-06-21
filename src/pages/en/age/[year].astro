@@ -1,0 +1,7 @@
+---
+import AgeYearPage from '../../../components/pages/AgeYearPage.astro';
+import { ageYearPaths } from '../../../data/age';
+
+export const getStaticPaths = () => ageYearPaths();
+---
+<AgeYearPage lang="en" year={Astro.props.year} />

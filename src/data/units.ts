@@ -57,6 +57,7 @@ export const unitCategories: UnitCategory[] = [
     name: { ko: '넓이', en: 'Area' },
     units: [
       { code: 'm2', name: { ko: '제곱미터', en: 'Square meter' }, factor: 1 },
+      { code: 'pyeong', name: { ko: '평', en: 'Pyeong' }, factor: 3.305785 },
       { code: 'km2', name: { ko: '제곱킬로미터', en: 'Square kilometer' }, factor: 1e6 },
       { code: 'cm2', name: { ko: '제곱센티미터', en: 'Square centimeter' }, factor: 1e-4 },
       { code: 'ha', name: { ko: '헥타르', en: 'Hectare' }, factor: 10000 },
@@ -157,60 +158,30 @@ export function convertUnit(categoryCode: string, value: number, from: string, t
   return (value * f) / t;
 }
 
-/** Curated, high-search unit conversions for programmatic SEO pages. */
-export const unitPairs: Array<{ category: string; from: string; to: string }> = [
-  // length
-  { category: 'length', from: 'km', to: 'mi' },
-  { category: 'length', from: 'mi', to: 'km' },
-  { category: 'length', from: 'm', to: 'ft' },
-  { category: 'length', from: 'ft', to: 'm' },
-  { category: 'length', from: 'cm', to: 'in' },
-  { category: 'length', from: 'in', to: 'cm' },
-  { category: 'length', from: 'ft', to: 'cm' },
-  { category: 'length', from: 'km', to: 'm' },
-  { category: 'length', from: 'mi', to: 'yd' },
-  // weight
-  { category: 'weight', from: 'kg', to: 'lb' },
-  { category: 'weight', from: 'lb', to: 'kg' },
-  { category: 'weight', from: 'g', to: 'oz' },
-  { category: 'weight', from: 'oz', to: 'g' },
-  { category: 'weight', from: 'kg', to: 'g' },
-  { category: 'weight', from: 't', to: 'lb' },
-  // temperature
-  { category: 'temperature', from: 'C', to: 'F' },
-  { category: 'temperature', from: 'F', to: 'C' },
-  { category: 'temperature', from: 'C', to: 'K' },
-  { category: 'temperature', from: 'K', to: 'C' },
-  // area
-  { category: 'area', from: 'm2', to: 'ft2' },
-  { category: 'area', from: 'ft2', to: 'm2' },
-  { category: 'area', from: 'acre', to: 'ha' },
-  { category: 'area', from: 'ha', to: 'acre' },
-  { category: 'area', from: 'acre', to: 'm2' },
-  // volume
-  { category: 'volume', from: 'l', to: 'galUS' },
-  { category: 'volume', from: 'galUS', to: 'l' },
-  { category: 'volume', from: 'ml', to: 'cup' },
-  { category: 'volume', from: 'cup', to: 'ml' },
-  { category: 'volume', from: 'm3', to: 'l' },
-  // speed
-  { category: 'speed', from: 'kmh', to: 'mph' },
-  { category: 'speed', from: 'mph', to: 'kmh' },
-  { category: 'speed', from: 'kmh', to: 'mps' },
-  { category: 'speed', from: 'knot', to: 'kmh' },
-  // data
-  { category: 'data', from: 'MB', to: 'GB' },
-  { category: 'data', from: 'GB', to: 'MB' },
-  { category: 'data', from: 'GB', to: 'TB' },
-  { category: 'data', from: 'KB', to: 'MB' },
-  // time
-  { category: 'time', from: 'min', to: 'h' },
-  { category: 'time', from: 'h', to: 'min' },
-  { category: 'time', from: 'day', to: 'h' },
-  { category: 'time', from: 'h', to: 'day' },
-  { category: 'time', from: 'min', to: 's' },
-  { category: 'time', from: 'year', to: 'day' },
-];
+/**
+ * Priority units per category (the most-searched conversions).
+ * All ordered pairs among each list are generated for programmatic SEO pages.
+ */
+const PRIORITY_UNITS: Record<string, string[]> = {
+  length: ['km', 'mi', 'm', 'ft', 'cm', 'in'],
+  weight: ['kg', 'lb', 'g', 'oz', 't'],
+  temperature: ['C', 'F', 'K'],
+  area: ['m2', 'ft2', 'pyeong', 'acre', 'ha'],
+  volume: ['l', 'galUS', 'ml', 'cup'],
+  speed: ['kmh', 'mph', 'mps', 'knot'],
+  data: ['KB', 'MB', 'GB', 'TB'],
+  time: ['min', 'h', 's', 'day', 'year'],
+};
+
+/** Generated, high-search unit conversions for programmatic SEO pages. */
+export const unitPairs: Array<{ category: string; from: string; to: string }> = [];
+for (const cat of Object.keys(PRIORITY_UNITS)) {
+  for (const from of PRIORITY_UNITS[cat]) {
+    for (const to of PRIORITY_UNITS[cat]) {
+      if (from !== to) unitPairs.push({ category: cat, from, to });
+    }
+  }
+}
 
 /** Static-path entries for the programmatic unit-pair pages. */
 export function unitPairPaths() {

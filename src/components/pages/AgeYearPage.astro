@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import AgeCalculator from '../AgeCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import { ageRangeForYear, ageYears } from '../../data/age';
+
+interface Props {
+  lang: Locale;
+  year: number;
+}
+const { lang, year } = Astro.props;
+const tr = t(lang);
+const a = tr.age;
+const ko = lang === 'ko';
+const thisYear = new Date().getFullYear();
+const range = ageRangeForYear(year, thisYear);
+
+const title = ko
+  ? `${year}년생 나이 계산기 | FinCalc`
+  : `Age Calculator for ${year} Birth Year | FinCalc`;
+const description = ko
+  ? `${thisYear}년 현재 ${year}년생은 연 나이 ${range.koreanYear}세, 만 나이 ${range.min}~${range.max}세입니다. 정확한 나이는 생년월일을 입력해 확인하세요.`
+  : `In ${thisYear}, someone born in ${year} is ${range.max} or ${range.min} years old (international age), ${range.koreanYear} in Korean year age. Enter a date of birth for the exact age.`;
+
+const related = ageYears
+  .filter((y) => y !== year && Math.abs(y - year) <= 5)
+  .slice(0, 12)
+  .map((y) => ({ href: localizePath(lang, `/age/${y}`), label: `${y}${ko ? '년생' : ''}` }));
+---
+
+<BaseLayout lang={lang} path={`/age/${year}`} title={title} description={description}>
+  <section class="page-head container">
+    <h1>{ko ? `${year}년생 나이 계산기` : `${year} Birth Year — Age Calculator`}</h1>
+    <p class="page-head__desc">{description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <AgeCalculator lang={lang} birthYear={year} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h3 class="subsection__title">{a.popularTitle}</h3>
+    <p class="tag-links">
+      {related.map((r) => <a href={r.href}>{r.label}</a>)}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

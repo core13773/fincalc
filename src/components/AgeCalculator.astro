@@ -1,0 +1,60 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang: Locale;
+  /** Preset birth year (for programmatic birth-year pages). */
+  birthYear?: number;
+}
+const { lang, birthYear } = Astro.props;
+const tr = t(lang).age;
+const locale = lang === 'ko' ? 'ko-KR' : 'en-US';
+const defaultBirth = birthYear ? `${birthYear}-01-01` : '1990-01-01';
+---
+
+<form id="age-calc" class="calc" data-locale={locale}>
+  <div class="calc__fields">
+    <label class="field">
+      <span class="field__label">{tr.birthDate}</span>
+      <input type="date" name="birth" value={defaultBirth} data-age-birth />
+    </label>
+    <label class="field">
+      <span class="field__label">{tr.asOf}</span>
+      <input type="date" name="asof" data-age-asof />
+    </label>
+  </div>
+
+  <div class="results">
+    <div class="result result--primary">
+      <span class="result__label">{tr.international}</span>
+      <span class="result__value" data-age-intl>—</span>
+    </div>
+    <div class="result-grid three">
+      <div class="result">
+        <span class="result__label">{tr.koreanYear}</span>
+        <span class="result__value" data-age-korean>—</span>
+      </div>
+      <div class="result">
+        <span class="result__label">{tr.counting}</span>
+        <span class="result__value" data-age-counting>—</span>
+      </div>
+      <div class="result result--accent">
+        <span class="result__label">{tr.daysLived}</span>
+        <span class="result__value" data-age-days>—</span>
+      </div>
+    </div>
+    <div class="rate">
+      <span class="rate__label">{tr.nextBirthday}</span>
+      <span class="rate__value" data-age-next>—</span>
+    </div>
+  </div>
+
+  <p class="calc__note">{tr.note}</p>
+
+  <script type="application/json" id="age-data" set:html={JSON.stringify({
+    locale,
+    labels: { years: tr.years, days: tr.days },
+  })} />
+  <script is:inline src="/js/age.js" defer></script>
+</form>

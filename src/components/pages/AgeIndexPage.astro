@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import AgeCalculator from '../AgeCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath, type Locale } from '../../i18n/config';
+import { ageYears } from '../../data/age';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const a = tr.age;
+const ko = lang === 'ko';
+---
+
+<BaseLayout lang={lang} path="/age" title={`${a.title} | FinCalc`} description={a.description}>
+  <section class="page-head container">
+    <h1>{a.title}</h1>
+    <p class="page-head__desc">{a.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <AgeCalculator lang={lang} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <h2 class="section__title">{a.popularTitle}</h2>
+    <p class="tag-links">
+      {ageYears.map((y) => (
+        <a href={localizePath(lang, `/age/${y}`)}>{y}{ko ? '년생' : ''}</a>
+      ))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

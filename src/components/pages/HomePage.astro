@@ -19,6 +19,7 @@ const tools = [
   { href: '/percentage', icon: '％', title: tr.percentage.title, desc: tr.percentage.description },
   { href: '/vat', icon: '🧾', title: tr.vat.title, desc: tr.vat.description },
   { href: '/income-tax', icon: '🧮', title: tr.incomeTax.title, desc: tr.incomeTax.description },
+  { href: '/age', icon: '🎂', title: tr.age.title, desc: tr.age.description },
 ].map((x) => ({ ...x, href: localizePath(lang, x.href) }));
 
 const origin = Astro.site?.origin ?? DEFAULT_SITE_ORIGIN;
