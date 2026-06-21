@@ -37,19 +37,31 @@ const title =
   lang === 'ko'
     ? `${fromName}(${from}) → ${toName}(${to}) 환율 계산기 | FinCalc`
     : `${from} to ${to} Converter — Live Exchange Rate | FinCalc`;
+
+// META description stays a plain static string (SEO / social). The visible
+// page-head__desc and about paragraph below render the rate in a live-updated span.
 const description =
   lang === 'ko'
     ? `1 ${from} = ${fmtRate} ${to}. ${fromName}를 ${toName}로 변환하는 실시간 환율 계산기. 여행·송금·쇼핑 금액을 빠르게 환산하세요.`
     : `1 ${from} = ${fmtRate} ${to}. Live ${from} to ${to} exchange rate converter for travel, transfers, and shopping.`;
 
+const descTail =
+  lang === 'ko'
+    ? `${fromName}를 ${toName}로 변환하는 실시간 환율 계산기. 여행·송금·쇼핑 금액을 빠르게 환산하세요.`
+    : `Live ${from} to ${to} exchange rate converter for travel, transfers, and shopping.`;
+
+const aboutBefore =
+  lang === 'ko'
+    ? `${fromName}(${from})를 ${toName}(${to})로 환산하는 무료 환율 계산기입니다. 현재 참고 환율은 `
+    : `Free ${fromName} (${from}) to ${toName} (${to}) currency converter. The current reference rate is `;
+const aboutAfter =
+  lang === 'ko'
+    ? ` 이며, 금액을 입력하면 실시간 환율로 즉시 변환됩니다. 환율은 실시간 데이터를 기준으로 하며 네트워크 상황에 따라 참고용 기준 환율이 표시될 수 있습니다.`
+    : `. Enter any amount for an instant conversion using live rates. When live rates are unavailable, indicative reference rates are shown.`;
+
 const slug = `${from.toLowerCase()}-${to.toLowerCase()}`;
 const reverseSlug = `${to.toLowerCase()}-${from.toLowerCase()}`;
 const reverseHref = localizePath(lang, `/currency/${reverseSlug}`);
-
-const aboutText =
-  lang === 'ko'
-    ? `${fromName}(${from})를 ${toName}(${to})로 환산하는 무료 환율 계산기입니다. 현재 참고 환율은 1 ${from} = ${fmtRate} ${to} 이며, 금액을 입력하면 실시간 환율로 즉시 변환됩니다. 환율은 실시간 데이터를 기준으로 하며 네트워크 상황에 따라 참고용 기준 환율이 표시될 수 있습니다.`
-    : `Free ${fromName} (${from}) to ${toName} (${to}) currency converter. The current reference rate is 1 ${from} = ${fmtRate} ${to}. Enter any amount for an instant conversion using live rates. When live rates are unavailable, indicative reference rates are shown.`;
 
 const related = currencyPairs
   .filter(([f, t2]) => !(f === from && t2 === to) && !(f === to && t2 === from))
@@ -78,7 +90,9 @@ const jsonLd = {
       <span class="flags">{currencies[from].flag} → {currencies[to].flag}</span>
       {lang === 'ko' ? `${fromName}(${from}) → ${toName}(${to})` : `${from} to ${to}`}
     </h1>
-    <p class="page-head__desc">{description}</p>
+    <p class="page-head__desc">
+      1 {from} = <span data-rt-from={from} data-rt-to={to}>{fmtRate}</span> {to}. {descTail}
+    </p>
   </section>
 
   <div class="container layout-2col">
@@ -92,7 +106,9 @@ const jsonLd = {
 
   <section class="container section">
     <h2 class="section__title">{lang === 'ko' ? `${from} / ${to} 환율 안내` : `About ${from} / ${to}`}</h2>
-    <p class="prose">{aboutText}</p>
+    <p class="prose">
+      {aboutBefore}1 {from} = <span data-rt-from={from} data-rt-to={to}>{fmtRate}</span> {to}{aboutAfter}
+    </p>
     <p class="related">
       <a href={reverseHref}>
         {lang === 'ko' ? `${to} → ${from} 환율 보기` : `View ${to} to ${from} rate`} ↗
