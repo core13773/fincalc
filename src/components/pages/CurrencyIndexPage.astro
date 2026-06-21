@@ -73,7 +73,7 @@ const fmt = (val: number, code: string) =>
               <td>
                 <a href={row.href}>{currencies[row.to].flag} {row.to}</a>
               </td>
-              <td class="rate-table__num">{fmt(row.rate, row.to)}</td>
+              <td class="rate-table__num" data-rt-from={row.from} data-rt-to={row.to}>{fmt(row.rate, row.to)}</td>
             </tr>
           ))}
         </tbody>

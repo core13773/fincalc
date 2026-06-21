@@ -78,6 +78,19 @@
     resultEl.textContent = fmtCur(result, to, to === 'JPY' ? 0 : 2);
     rateEl.textContent = '1 ' + from + ' = ' + fmtCur(rate, to, 4);
     inverseEl.textContent = '1 ' + to + ' = ' + fmtCur(inverse, from, 4);
+    renderTable(rates);
+  }
+
+  // Update the popular-rates table on the currency index page (document-scoped,
+  // lives outside #currency-calc) with the same live rates — no extra request.
+  function renderTable(rates) {
+    var cells = document.querySelectorAll('[data-rt-from]');
+    if (!cells.length) return;
+    cells.forEach(function (cell) {
+      var f = cell.getAttribute('data-rt-from');
+      var t = cell.getAttribute('data-rt-to');
+      cell.textContent = fmtCur(rateValue(rates, f, t), t, t === 'JPY' ? 0 : 4);
+    });
   }
 
   function loadLive() {
