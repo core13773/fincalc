@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../AdSlot.astro';
+import JeonseCalculator from '../JeonseCalculator.astro';
+import { t } from '../../i18n/ui';
+import { localizePath } from '../../i18n/config';
+
+const lang = 'ko';
+const tr = t(lang);
+const j = tr.jeonse;
+const related = [
+  { href: localizePath(lang, '/loan-calculator'), label: tr.nav.loan },
+  { href: localizePath(lang, '/dsr'), label: tr.dsr.title },
+  { href: localizePath(lang, '/vat'), label: tr.nav.vat },
+];
+---
+
+<BaseLayout lang={lang} path="/jeonse" title={`${j.title} | FinCalc`} description={j.description}>
+  <section class="page-head container">
+    <h1>{j.title}</h1>
+    <p class="page-head__desc">{j.description}</p>
+  </section>
+
+  <div class="container layout-2col">
+    <div class="layout-main">
+      <JeonseCalculator lang={lang} />
+    </div>
+    <aside class="layout-side">
+      <AdSlot variant="rectangle" />
+    </aside>
+  </div>
+
+  <section class="container section">
+    <p class="related">
+      {related.map((r, i) => (<>
+        {i > 0 && ' · '}
+        <a href={r.href}>{r.label}</a>
+      </>))}
+    </p>
+  </section>
+
+  <div class="container">
+    <AdSlot variant="leaderboard" />
+  </div>
+</BaseLayout>

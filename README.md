@@ -8,7 +8,7 @@
 - SEO: 페이지별 title/description, canonical, **hreflang**(ko/en/x-default), OG, JSON-LD, 자동 사이트맵
 - 광고: **환경변수 한 번으로 AdSense on/off** — 토큰 없으면 자리표시자, 토큰 넣으면 실제 `<ins>` 광고 자동 렌더
 
-## 도구 (18종)
+## 도구 (20종)
 
 | 도구 | 경로 |
 |---|---|
@@ -30,6 +30,8 @@
 | **대출 상환방식 비교 계산기** | `/loan-compare` |
 | **연말정산 예상 환급 계산기** (한국, KO) | `/year-tax` |
 | **중도상환수수료 계산기** (한국, KO) | `/early-repay` |
+| **전월세 전환율 계산기** (한국, KO) | `/jeonse` |
+| **자동차 취등세 계산기** (한국, KO) | `/car-tax` |
 
 ## 정보/법적 페이지 (AdSense 승인 필수)
 
@@ -42,7 +44,7 @@
 npm install
 cp .env.example .env      # (선택) AdSense/GSC 토큰 입력
 npm run dev               # http://localhost:4321
-npm run build             # → dist/ (정적, 766페이지)
+npm run build             # → dist/ (정적, 768페이지)
 npm run preview           # dist/ 미리보기
 ```
 
