@@ -553,3 +553,18 @@ input[type='number']:focus, select:focus {
 .copyright { color: var(--muted); font-size: 0.82rem; }
 
 main { min-height: calc(100vh - var(--header-h) - 220px); }
+
+/* ---------- HilltopAds overlap guard (best-effort) ----------
+   HilltopAds 스크립트가 런타임에 뷰포트 하단/상단에 position:fixed 고정 배너를
+   띄울 수 있어 모바일에서 콘텐츠·네비게이션을 가릴 수 있습니다.
+   - 모바일에서 본문 하단에 여백(--ad-safe-bottom)을 확보해 콘텐츠가 가려지지 않게 합니다.
+   - 사이트 UI(헤더·스킵링크)의 z-index를 높여 광고 위에 표시되게 합니다(최선의 조치).
+   광고의 위치·형식·빈도 자체는 HilltopAds 대시보드(Manage Sites & Zones)의 zone
+   설정에서 in-content/비-오버레이로 전환해야 근본적으로 해결됩니다.
+   --ad-safe-bottom 값을 실제 배너 높이에 맞춰 조절하세요. */
+:root { --ad-safe-bottom: 64px; }
+@media (max-width: 768px) {
+  body { padding-bottom: calc(var(--ad-safe-bottom) + env(safe-area-inset-bottom)); }
+}
+.site-header { z-index: 2147483645; }
+.skip-link { z-index: 2147483646; }
