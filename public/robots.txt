@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fincalc.monster/sitemap-index.xml
+Sitemap: https://fincalc.monster/sitemap.xml
