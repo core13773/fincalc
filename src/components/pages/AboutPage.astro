@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
 
@@ -32,7 +31,6 @@ const tools = [
   </section>
 
   <div class="container layout-prose">
-    <AdSlot variant="leaderboard" />
     <div class="prose">
       <p>{ko
         ? `FinCalc는 누구나 무료로 사용할 수 있는 다국어(한국어·English) 금융 계산기 모음입니다. 빠르고 가벼운 정적 웹사이트로, 회원가입 없이 브라우저에서 바로 계산할 수 있습니다.`

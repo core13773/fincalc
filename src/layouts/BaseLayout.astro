@@ -1,5 +1,5 @@
 ---
-import { DEFAULT_SITE_ORIGIN, ADSENSE_CLIENT, GSC_VERIFICATION, NAVER_VERIFICATION, GA4_ID } from '../consts';
+import { DEFAULT_SITE_ORIGIN, GSC_VERIFICATION, NAVER_VERIFICATION, GA4_ID } from '../consts';
 import {
   hreflangCode,
   localizePath,
@@ -80,16 +80,6 @@ const ogLocale = hreflangCode(lang).replace('-', '_');
 
     {/* HilltopAds */}
     <script is:inline data-cfasync="false" type="text/javascript" src="https://pleased-report.com/bh3aVP0.Pz3BpBv/bnmiVhJaZ/DB0z3LMSTgg-w/MrzlULz/LRTJcFx_OtDdArzXNMTxcd"></script>
-
-    {/* Google AdSense loader — active only when PUBLIC_ADSENSE_CLIENT is set in .env */}
-    {ADSENSE_CLIENT && (
-      <script
-        is:inline
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-        crossorigin="anonymous"
-      ></script>
-    )}
 
     {/* Google Analytics 4 — active only when PUBLIC_GA4_ID is set */}
     {GA4_ID && (

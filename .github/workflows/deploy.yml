@@ -1,5 +1,5 @@
 # Builds the Astro site and deploys to GitHub Pages (custom domain: fincalc.monster).
-# Env vars (PUBLIC_ADSENSE_CLIENT, PUBLIC_GSC_VERIFICATION, PUBLIC_NAVER_VERIFICATION)
+# Env vars (PUBLIC_GSC_VERIFICATION, PUBLIC_NAVER_VERIFICATION)
 # are read from repo SECRETS at build time — set them under Settings → Secrets and variables → Actions.
 name: Deploy to GitHub Pages
 
@@ -37,7 +37,6 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_ADSENSE_CLIENT: ${{ secrets.PUBLIC_ADSENSE_CLIENT }}
           PUBLIC_GSC_VERIFICATION: ${{ secrets.PUBLIC_GSC_VERIFICATION }}
           PUBLIC_NAVER_VERIFICATION: ${{ secrets.PUBLIC_NAVER_VERIFICATION }}
           PUBLIC_GA4_ID: ${{ secrets.PUBLIC_GA4_ID }}

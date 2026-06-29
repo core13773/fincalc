@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import CompoundInterestCalculator from '../CompoundInterestCalculator.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
@@ -29,7 +28,6 @@ const related = [
       <CompoundInterestCalculator lang={lang} />
     </div>
     <aside class="layout-side">
-      <AdSlot variant="rectangle" />
     </aside>
   </div>
 
@@ -47,6 +45,5 @@ const related = [
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 </BaseLayout>

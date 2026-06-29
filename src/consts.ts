@@ -6,13 +6,6 @@ export const DEFAULT_SITE_ORIGIN = 'https://fincalc.monster';
 export const CONTACT_EMAIL = 'core13773@gmail.com';
 
 /**
- * Google AdSense publisher client id, e.g. 'ca-pub-1234567890123456'.
- * Set via .env: PUBLIC_ADSENSE_CLIENT=ca-pub-...
- * When empty, ad areas show labeled placeholders (no external requests).
- */
-export const ADSENSE_CLIENT: string = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '';
-
-/**
  * Google Search Console verification token (content value of the meta tag).
  * Set via .env: PUBLIC_GSC_VERIFICATION=...
  * When empty, the verification meta tag is omitted.
@@ -24,6 +17,3 @@ export const NAVER_VERIFICATION: string = import.meta.env.PUBLIC_NAVER_VERIFICAT
 
 /** Google Analytics 4 Measurement ID, e.g. 'G-XXXXXXXXXX'. Set via PUBLIC_GA4_ID. */
 export const GA4_ID: string = import.meta.env.PUBLIC_GA4_ID ?? '';
-
-/** True when a real AdSense client id is configured. */
-export const ADS_ENABLED = ADSENSE_CLIENT !== '';

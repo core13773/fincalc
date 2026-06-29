@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import UnitConverter from '../UnitConverter.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
@@ -68,7 +67,6 @@ const about =
       <UnitConverter lang={lang} category={category} from={from} to={to} amount={1} />
     </div>
     <aside class="layout-side">
-      <AdSlot variant="rectangle" />
     </aside>
   </div>
 
@@ -87,6 +85,5 @@ const about =
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 </BaseLayout>

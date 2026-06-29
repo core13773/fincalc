@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import AgeCalculator from '../AgeCalculator.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
@@ -41,7 +40,6 @@ const related = ageYears
       <AgeCalculator lang={lang} birthYear={year} />
     </div>
     <aside class="layout-side">
-      <AdSlot variant="rectangle" />
     </aside>
   </div>
 
@@ -53,6 +51,5 @@ const related = ageYears
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 </BaseLayout>

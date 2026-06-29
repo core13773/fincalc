@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import CurrencyConverter from '../CurrencyConverter.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
@@ -49,7 +48,6 @@ const fmt = (val: number, code: string) =>
       <CurrencyConverter lang={lang} from={defaultFrom} to={defaultTo} amount={100} />
     </div>
     <aside class="layout-side">
-      <AdSlot variant="rectangle" />
     </aside>
   </div>
 
@@ -83,6 +81,5 @@ const fmt = (val: number, code: string) =>
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 </BaseLayout>

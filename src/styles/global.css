@@ -528,12 +528,6 @@ input[type='number']:focus, select:focus {
   text-transform: uppercase;
   opacity: 0.7;
 }
-/* Real ad unit (renders <ins> when AdSense is configured) */
-.ad-unit {
-  margin: 24px auto;
-  min-height: 100px;
-  display: block;
-}
 .ad-slot--rectangle { min-height: 250px; max-width: 336px; }
 .ad-slot--inline { min-height: 120px; }
 

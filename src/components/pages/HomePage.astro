@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import { t } from '../../i18n/ui';
 import { localizePath, type Locale } from '../../i18n/config';
 import { DEFAULT_SITE_ORIGIN } from '../../consts';
@@ -64,7 +63,6 @@ const jsonLd = {
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 
   <section class="container section">
@@ -93,6 +91,5 @@ const jsonLd = {
   </section>
 
   <div class="container">
-    <AdSlot variant="leaderboard" />
   </div>
 </BaseLayout>

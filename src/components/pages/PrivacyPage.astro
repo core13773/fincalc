@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdSlot from '../AdSlot.astro';
 import { t } from '../../i18n/ui';
 import { type Locale } from '../../i18n/config';
 import { CONTACT_EMAIL } from '../../consts';
@@ -20,8 +19,8 @@ const h2 = (k: string, e: string) => (ko ? k : e);
   path="/privacy"
   title={`${tr.footer.legal.privacy} | FinCalc`}
   description={ko
-    ? 'FinCalc 개인정보처리방침 — 계산기 입력값은 저장하지 않으며, Google AdSense 광고와 쿠키 사용에 대한 안내입니다.'
-    : 'FinCalc privacy policy — calculator inputs are never stored. Covers Google AdSense and cookie use.'}
+    ? 'FinCalc 개인정보처리방침 — 계산기 입력값은 저장하지 않으며, HilltopAds 광고와 쿠키 사용에 대한 안내입니다.'
+    : 'FinCalc privacy policy — calculator inputs are never stored. Covers HilltopAds ads and cookie use.'}
 >
   <section class="page-head container">
     <h1>{tr.footer.legal.privacy}</h1>
@@ -29,7 +28,6 @@ const h2 = (k: string, e: string) => (ko ? k : e);
   </section>
 
   <div class="container layout-prose">
-    <AdSlot variant="leaderboard" />
     <div class="prose">
       <p>{ko
         ? `FinCalc(이하 "당사")는 사용자의 개인정보를 존중하며, 본 방침은 당사가 정보를 어떻게 다루는지 설명합니다. 당사의 모든 계산기는 브라우저에서 직접 실행되며, 회원가입이나 로그인 없이 이용할 수 있습니다.`
@@ -45,10 +43,10 @@ const h2 = (k: string, e: string) => (ko ? k : e);
         ? `당사는 필수 기능의 제공과 사용 통계 파악을 위해 쿠키를 사용할 수 있습니다. 브라우저 설정에서 쿠키를 차단할 수 있으며, 이 경우 일부 기능에 제한이 있을 수 있습니다.`
         : `We may use cookies to provide essential functionality and understand usage. You can block cookies in your browser settings, though some features may be limited.`}</p>
 
-      <h2>{h2('제3자 광고 (Google AdSense)', 'Third-party advertising (Google AdSense)')}</h2>
+      <h2>{h2('제3자 광고 (HilltopAds)', 'Third-party advertising (HilltopAds)')}</h2>
       <p>{ko
-        ? `당사는 Google AdSense를 통해 제3자 광고를 게재할 수 있습니다. Google은 사용자의 관심사 기반 맞춤 광고를 제공하기 위해 쿠키(DART 쿠키 포함)를 사용할 수 있습니다. 사용자는 Google 광고 설정(adssettings.google.com)에서 맞춤 광고를 비활성화하거나, 브라우저에서 서드파티 쿠키를 차단할 수 있습니다.`
-        : `We may display third-party ads via Google AdSense. Google, including its DoubleClick DART cookie, may use cookies to serve ads based on your prior visits. You can opt out of personalized advertising in Google Ads Settings (adssettings.google.com) or by blocking third-party cookies in your browser.`}</p>
+        ? `당사는 HilltopAds 등 제3자 광고 네트워크를 통해 광고를 게재할 수 있습니다. 이들 네트워크는 사용자의 관심사 기반 맞춤 광고를 제공하기 위해 쿠키 또는 유사 기술을 사용할 수 있습니다. 사용자는 AboutAds(aboutads.info)에서 맞춤 광고를 비활성화하거나, 브라우저에서 서드파티 쿠키를 차단할 수 있습니다.`
+        : `We may display third-party ads via HilltopAds and other ad networks. These networks may use cookies or similar technologies to serve ads based on your prior visits. You can opt out of personalized advertising at AboutAds (aboutads.info) or by blocking third-party cookies in your browser.`}</p>
 
       <h2>{h2('제3자 서비스', 'Third-party services')}</h2>
       <p>{ko
